@@ -1,24 +1,26 @@
-public class Enemy extends Objects{
+import processing.core.PApplet;
 
-	
-	//test
-	public Enemy(float posX, float posY, float rX, float rY) {
-		super(posX, posY, rX, rY);
+public class Enemy extends MainObject {
+
+	public Enemy(PApplet d) {
+		super(d);
 		// TODO Auto-generated constructor stub
 	}
 
-	
-	public void moveEnemy(float y)
-	{
-		
-		this.velY = y;
-		
-		this.y += this.velY;
-		
-	}
-	
-	
+	public void drawEnemy(float posX, float posY, float xa, float yb) {
+		this.x = posX;
+		this.y = posY;
+		this.a = xa;
+		this.b = yb;
+		drawing.fill(255, 0, 0);
+		drawing.rect(this.x, this.y, this.a, this.b);
 
-	
-	
+	}
+
+	public void moveEnemy(float speed) {
+		velY = speed;
+		this.y -= velY;
+
+	}
+
 }

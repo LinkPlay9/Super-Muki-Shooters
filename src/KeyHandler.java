@@ -1,5 +1,5 @@
 import processing.core.*;
-//test
+
 public class KeyHandler extends PApplet{
 	
 	boolean goUp, goDown, goLeft, goRight, triggered;
