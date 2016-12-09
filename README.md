@@ -1,15 +1,5 @@
-# eimiproject
-einführung in die medieninformatik projekt
+#Super Muki Shooter (arbeitstitel)
 
+Wilkommen zum Super Muki Shooter github
 
-test gib von eclipse
-
-
-warum ist dir das so wichtig?
-
-Du bist die ***
-
-nicht jugendfreie sachen hier...
-
-
-NOOOOOOOOOOOOOOOOOOB
+Hier wird ein super tolles spiel gebaut.
