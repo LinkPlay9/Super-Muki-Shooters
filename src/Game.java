@@ -37,11 +37,24 @@ public class Game extends PApplet {
 	public void draw() {
 		background(bg);
 
+		fill(255, 255, 255);
 		textSize(20);
 		text("FPS: " + (int) frameRate, 0, 20);
 
-		// SPieler, gegner Zeichnen
+		// SPieler zeichnen
 		Player1.drawPlayer();
+
+		// Gegner zeichnen
+		fill(0, 255, 0);
+		Enemy1.drawEnemy();
+
+		// Wenn Gegner Getroffen wird
+		if (x.x >= Enemy1.x && Enemy1.y >= x.y) {
+			Enemy1.stopEnemy();
+		} else {
+			Enemy1.moveEnemy();
+
+		}
 
 		// KeyEvents für Spieler
 		if (key == ' ') {
@@ -49,7 +62,7 @@ public class Game extends PApplet {
 		}
 
 		if (sh) {
-
+			fill(255, 153, 255);
 			x.shoot();
 
 		}
