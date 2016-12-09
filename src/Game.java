@@ -28,6 +28,7 @@ public class Game extends PApplet {
 		loop();
 	}
 
+	// Spieler, Gegner,Projektil deklarieren
 	Player Player1 = new Player(this);
 	Enemy Enemy1 = new Enemy(this);
 	Projectile x = new Projectile(this, Player1);
@@ -39,29 +40,37 @@ public class Game extends PApplet {
 		textSize(20);
 		text("FPS: " + (int) frameRate, 0, 20);
 
+		// SPieler, gegner Zeichnen
 		Player1.drawPlayer();
-		Enemy1.drawEnemy(10.0f, 0f, 25f, 25f);
 
+		// KeyEvents für Spieler
 		if (key == ' ') {
 			sh = true;
 		}
 
 		if (sh) {
-			x.shoot();
-		}
 
-		// KeyEvents für Spieler
+			x.shoot();
+
+		}
 
 		if (keyPressed) {
 
 			if (key == 'a' || key == 'A') {
 				Player1.movePlayer(-2.5f);
+				if (sh == false) {
+					x.x += -2.5f;
 
+				}
 			}
 
 			if (key == 'd' || key == 'D') {
 
 				Player1.movePlayer(2.5f);
+				if (sh == false) {
+					x.x += 2.5f;
+
+				}
 
 			}
 
