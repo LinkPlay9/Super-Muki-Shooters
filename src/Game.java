@@ -49,7 +49,7 @@ public class Game extends PApplet {
 		Enemy1.drawEnemy();
 
 		// Wenn Gegner Getroffen wird
-		if (x.x >= Enemy1.x && Enemy1.y >= x.y) {
+		if (x.x == Enemy1.x && Enemy1.y <= x.y) {
 			Enemy1.stopEnemy();
 		} else {
 			Enemy1.moveEnemy();
