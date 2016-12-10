@@ -10,9 +10,10 @@ public class Projectile extends MainObject {
 	}
 
 	public void shoot() {
-		velY = 5;
+		velY = 2;
 		drawing.ellipse(this.x, this.y, 10, 10);
 		this.y -= velY;
 
 	}
+
 }

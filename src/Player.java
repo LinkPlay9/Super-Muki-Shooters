@@ -27,16 +27,6 @@ public class Player extends MainObject {
 		velX = speed;
 		this.x = this.x + velX;
 
-		// Damit der Spieler nicht aus dem Feld kann
-		if (this.x <= 0) {
-			this.x = 0;
-		}
-
-		if (this.x >= 749) {
-			this.x = 749;
-
-		}
-
 	}
 
 }

@@ -13,7 +13,7 @@ public class Enemy extends MainObject {
 		posY = this.y;
 		posX = this.x;
 		velocityX = 0.8f;
-		velocityY = 1.8f;
+		velocityY = 0.8f;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -26,11 +26,19 @@ public class Enemy extends MainObject {
 
 	public void moveEnemy() {
 		this.y += velocityY;
-		// Wenn Gegner ganz unten ankommt bleibt der auch da
-		if (this.y > 600 - 26) {
-			this.y = 600 - 26;
+
+		if (this.y >= 600 - 25) {
+			this.y = 600 - 25;
+			System.out.print("BITCH HAST VERLOREN MUHAHAH");
 
 		}
+
+	}
+
+	public void stopEnemy() {
+
+		this.x = -2;
+		this.y = -2;
 
 	}
 
