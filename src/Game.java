@@ -1,10 +1,15 @@
+import java.util.ArrayList;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Game extends PApplet {
+	// Bilder,Spieler,Gegner,Projektile Deklarieren
 	PImage bg, meme;
-
-	// Deklaration Spieler & Gegner
+	Player Player1 = new Player(this);
+	Enemy[] Enemy1 = new Enemy[9];
+	ArrayList<Projectile> schuss = new ArrayList<Projectile>();
+	boolean nigga = false;
 
 	public static void main(String[] args) {
 		PApplet.main("Game");
@@ -13,106 +18,67 @@ public class Game extends PApplet {
 
 	public void setup() {
 		frameRate(1000);
+		// Gegner erzeugen
+		for (int i = 0; i < Enemy1.length; i++) {
+			Enemy1[i] = new Enemy(this);
+
+		}
+
+		// for (int i = 0; i < 10; i++) {
+		// schuss.add(new Projectile(this, Player1));
+		// }
 
 	}
 
 	public void settings() {
-
-		// CustomBackground mit der Auflösung 800x600
+		// CustomBackground mit der Auflösung 800x600sized d ad ad
 		size(800, 600, P2D);
-		// fullScreen(P2D);
-
 		bg = loadImage("data/Backgrounds/Level1.jpg");
 		bg.resize(width, height);
-
-		meme = loadImage("data/Backgrounds/nigga.jpg");
-		meme.resize(150, 150);
 		loop();
 	}
 
-	// Spieler, Gegner,Projektil deklarieren
-	Player Player1 = new Player(this);
-	Enemy Enemy1 = new Enemy(this);
-	Projectile x = new Projectile(this, Player1);
-	Projectile z = new Projectile(this, Player1);
-	boolean sh = false;
-	boolean ak = false;
-
 	public void draw() {
 		background(bg);
-
-		fill(255, 255, 255);
+		schuss.add(new Projectile(this, Player1));
+		fill(220, 153, 255);
 		textSize(20);
 		text("FPS: " + (int) frameRate, 0, 20);
 
-		// SPieler zeichnen
-		fill(0, 255, 0);
+		// Spieler erzeugen
 		Player1.drawPlayer();
 
+		// Keyevents Spieler
+		Player1.movePlayer();
+
 		// Gegner zeichnen
-		fill(255, 0, 0);
-		Enemy1.drawEnemy();
-		Enemy1.moveEnemy();
-
-		// Wenn Gegner Durchkommt
-		if (Enemy1.y >= 574) {
-			textSize(32);
-			fill(153, 255, 255);
-			text("VERLOREN BITCH ! ", 245, 150);
-			image(meme, 275, 165);
-		}
-
-		// KeyEvents für Spieler
-		if (key == ' ') {
-			sh = true;
+		for (int i = 0; i < Enemy1.length; i++) {
+			fill(255, 255, 0);
+			Enemy1[i].drawAndMoveEnemy();
 
 		}
 
-		if (sh) {
-			fill(255, 153, 255);
-			x.shoot();
+		// Projektil Zeichnen und bei KeyEvent schießen
+		for (int i = 0; i < schuss.size(); i++) {
+			Projectile j = schuss.get(i);
+			j.drawPro();
+			j.shoot();
+			if (j.y <= Player1.y) {
+				nigga = true;
+			}
+			if (nigga) {
+				if (key == ' ') {
+					schuss.remove(schuss.size() - 1);
+					j.drawPro();
+					j.shoot();
+					nigga = false;
 
-		}
-
-		if (key == 'f') {
-
-			ak = true;
-
-		}
-
-		if (ak) {
-			fill(0, 255, 0);
-			z.shoot();
-
-		}
-		if (keyPressed) {
-
-			if (key == 'a' || key == 'A') {
-				Player1.movePlayer(-2.5f);
-				if (sh == false) {
-					x.x += -2.5f;
 				}
-				if (ak == false) {
-					z.x += -2.5f;
-				}
+
 			}
 
-			if (key == 'd' || key == 'D') {
-				Player1.movePlayer(2.5f);
-				if (sh == false) {
-					x.x += 2.5f;
-				}
-				if (ak == false) {
-					z.x += 2.5f;
-				}
-			}
-
-			if (key == ESC)
-
-			{
-				System.exit(1);
-
-			}
 		}
+
 	}
+
 }

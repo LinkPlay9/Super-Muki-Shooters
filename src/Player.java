@@ -18,14 +18,44 @@ public class Player extends MainObject {
 
 	public void drawPlayer() {
 
-		drawing.fill(255, 255, 255);
+		drawing.fill(0, 255, 0);
 		drawing.rect(x, y, a, b);
 
 	}
 
-	public void movePlayer(float speed) {
-		velX = speed;
+	public void movePlayer() {
+
 		this.x = this.x + velX;
+
+		if (drawing.keyPressed) {
+
+			if (drawing.key == 'a' || drawing.key == 'A') {
+				this.x += -2.5f;
+
+			}
+
+			if (drawing.key == 'd' || drawing.key == 'D') {
+				this.x += 2.5f;
+
+			}
+
+			if (drawing.key == ESC)
+
+			{
+				System.exit(1);
+
+			}
+		}
+
+		// Damit der Spieler nicht aus dem Feld kann
+		if (this.x <= 0) {
+			this.x = 0;
+		}
+
+		if (this.x >= 749) {
+			this.x = 749;
+
+		}
 
 	}
 

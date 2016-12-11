@@ -3,7 +3,9 @@ import processing.core.PApplet;
 public class MainObject extends PApplet {
 
 	public PApplet drawing;
-	public float x, y, a, b;
+	public float x;
+	public float y;
+	public float a, b;
 	public float velX, velY;
 
 	public MainObject(PApplet d) {
