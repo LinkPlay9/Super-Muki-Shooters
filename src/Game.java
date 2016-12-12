@@ -9,10 +9,12 @@ public class Game extends PApplet {
 	Player Player1 = new Player(this);
 	ArrayList<Enemy> ene = new ArrayList<Enemy>();
 	ArrayList<Projectile> schuss = new ArrayList<Projectile>();
-	boolean nigga, sh = false;
+	ArrayList<ProjectileEnemy> schussGegner = new ArrayList<ProjectileEnemy>();
+	int playerHitPoints = 100;
 	boolean canShoot = true;
 	int canShootCounter;
 	clock tick = new clock();
+	ProjectileEnemy kill2;
 
 	public static void main(String[] args) {
 		PApplet.main("Game");
@@ -23,9 +25,13 @@ public class Game extends PApplet {
 		frameRate(1000);
 		// Gegner erzeugen
 		tick.update();
-
-		for (int i = 0; i < 10; i++) {
+		// Gegner erstellen
+		for (int i = 0; i < 5; i++) {
 			ene.add(new Enemy(this));
+		}
+		// Projektile für die Gegner erstellen
+		for (int i = 0; i < ene.size() - 1; i++) {
+			schussGegner.add(new ProjectileEnemy(this, ene, i));
 
 		}
 
@@ -36,6 +42,7 @@ public class Game extends PApplet {
 		size(800, 600, P2D);
 		bg = loadImage("data/Backgrounds/Level1.jpg");
 		bg.resize(width, height);
+		meme = loadImage("data/Backgrounds/nigga.jpg");
 		loop();
 	}
 
@@ -54,35 +61,66 @@ public class Game extends PApplet {
 		Player1.movePlayer();
 
 		// Gegner zeichnen, moven wenn Gegner durchkommt wird gegner schneller
-		for (Enemy k : ene) {
+		Enemy k = (new Enemy(this));
+		for (int i = 0; i < ene.size() - 1; i++) {
+			k = ene.get(i);
 			k.drawEnemy();
 			k.update();
-			k.enemyWon();
+			// GegnerProjectile erstellen und Schießen
+			kill2 = new ProjectileEnemy(this, ene, i);
+			kill2 = schussGegner.get(i);
+			kill2.drawProjectileEnemy();
+			kill2.shootEnemy();
+			// Wenn Gegner durchkommt verliert Spieler 5 HP
+			if (k.enemyThrough()) {
+				playerHitPoints = playerHitPoints - 5;
+				k.enemySpeedUp();
+			}
+			// Wenn GegnerKugel Player trifft verliert der 20 HP , NOCH NICHT
+			// FERTIG !!
+			if (Player1.y - kill2.y == 10) {
+				playerHitPoints = playerHitPoints - 20;
+			}
+			if (playerHitPoints == 0) {
+				ene.clear();
+
+			}
 
 		}
 
-		// Methode zum Schießen , KLAPPT !
+		// System.out.println(schussGegner.size());
+
+		// Wenn spieler 0 hp hat dann nice meme
+		if (playerHitPoints == 0) {
+			textSize(50);
+			fill(255, 0, 0);
+			text("U LOST!", width / 2, height / 2);
+			image(meme, width / 2, height / 2);
+		}
+		// HP-Anzeige
+		fill(220, 153, 255);
+		textSize(20);
+		text("HP: " + (int) playerHitPoints, 720, 20);
+
+		// Methode zum Schießen , KLAPPT
 		msis();
 
-		// Projectile erstellen & zeichnen
+		// Projectile erstellen & zeichnen & Schießen
 		Projectile kill = new Projectile(this, Player1);
 		for (int i = 0; i < schuss.size(); i++) {
 			kill = schuss.get(i);
 			kill.draw();
-			schuss.get(i).shoot();
+			kill.shoot();
 			if (schuss.get(i).y <= 0) {
 				schuss.remove(0);
-
 			}
 		}
-		// Zähler
-		// System.out.println(schuss.size());
-
+		// System.out.println(schussGegner.size());
 	}
 
 	// Methode zum Schießen , KLAPPT !
 	public void msis() {
-		if (mousePressed == true) {
+		if (mousePressed) {
 			// this regulates the shooting speed
 			if (canShoot == true) {
 				schuss.add(new Projectile(this, Player1));
