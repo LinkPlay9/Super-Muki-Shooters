@@ -9,7 +9,7 @@ public class Enemy extends MainObject {
 	float minY = -92;
 	float maxY = -10;
 	float finalY = minY + (maxY - minY) * rand.nextFloat();
-	float minX = 50;
+	float minX = 100;
 	float maxX = 800 - 25;
 	float finalX = minX + (maxX - minX) * rand.nextFloat();
 
@@ -17,17 +17,16 @@ public class Enemy extends MainObject {
 		super(d);
 		this.x = finalX;
 		this.y = finalY;
-		this.a = 25.0f;
-		this.b = 25.0f;
-		// velocityX = 0.8f;
-		velocityY = 1.2f;
+		this.a = 25;
+		this.b = 25;
+		velocityY = 100;
 	}
 
 	public void drawAndMoveEnemy() {
 
 		drawing.fill(255, 0, 0);
 		drawing.rect(x, y, a, b);
-		this.y += velocityY;
+		this.y += velocityY * clock.elapsedTime;
 		if (this.y > 600 - 26) {
 			this.y = 600 - 26;
 

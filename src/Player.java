@@ -24,18 +24,17 @@ public class Player extends MainObject {
 	}
 
 	public void movePlayer() {
-
 		this.x = this.x + velX;
 
 		if (drawing.keyPressed) {
 
 			if (drawing.key == 'a' || drawing.key == 'A') {
-				this.x += -2.5f;
+				this.x += -500 * clock.elapsedTime;
 
 			}
 
 			if (drawing.key == 'd' || drawing.key == 'D') {
-				this.x += 2.5f;
+				this.x += 500 * clock.elapsedTime;
 
 			}
 
