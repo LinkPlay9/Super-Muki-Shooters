@@ -7,7 +7,7 @@ public class Game extends PApplet {
 	// Bilder,Spieler,Gegner,Projektile Deklarieren
 	PImage bg, meme;
 	Player Player1 = new Player(this);
-	Enemy[] Enemy1 = new Enemy[20];
+	ArrayList<Enemy> ene = new ArrayList<Enemy>();
 	ArrayList<Projectile> schuss = new ArrayList<Projectile>();
 	boolean nigga, sh = false;
 	boolean canShoot = true;
@@ -20,11 +20,12 @@ public class Game extends PApplet {
 	}
 
 	public void setup() {
-		frameRate(60);
+		frameRate(1000);
 		// Gegner erzeugen
 		tick.update();
-		for (int i = 0; i < Enemy1.length; i++) {
-			Enemy1[i] = new Enemy(this);
+
+		for (int i = 0; i < 10; i++) {
+			ene.add(new Enemy(this));
 
 		}
 
@@ -45,17 +46,19 @@ public class Game extends PApplet {
 		fill(220, 153, 255);
 		textSize(20);
 		text("FPS: " + (int) frameRate, 0, 20);
-		
+
 		// Spieler erzeugen
 		Player1.drawPlayer();
 
 		// Keyevents Spieler
 		Player1.movePlayer();
 
-		// Gegner zeichnen
-		for (int i = 0; i < Enemy1.length; i++) {
-			fill(255, 255, 0);
-			Enemy1[i].drawAndMoveEnemy();
+		// Gegner zeichnen, moven wenn Gegner durchkommt wird gegner schneller
+		for (Enemy k : ene) {
+			k.drawEnemy();
+			k.update();
+			k.enemyWon();
+
 		}
 
 		// Methode zum Schießen , KLAPPT !
@@ -73,7 +76,7 @@ public class Game extends PApplet {
 			}
 		}
 		// Zähler
-		//System.out.println(schuss.size());
+		// System.out.println(schuss.size());
 
 	}
 

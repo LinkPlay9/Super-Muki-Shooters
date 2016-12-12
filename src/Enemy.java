@@ -19,19 +19,26 @@ public class Enemy extends MainObject {
 		this.y = finalY;
 		this.a = 25;
 		this.b = 25;
-		velocityY = 100;
+		velocityY = 50;
 	}
 
-	public void drawAndMoveEnemy() {
+	public void drawEnemy() {
 
 		drawing.fill(255, 0, 0);
 		drawing.rect(x, y, a, b);
+
+	}
+
+	public void update() {
 		this.y += velocityY * clock.elapsedTime;
+	}
+
+	public void enemyWon() {
 		if (this.y > 600 - 26) {
-			this.y = 600 - 26;
-
+			velocityY += 10;
+			this.y = minY + (maxY - minY) * rand.nextFloat();
+			this.x = minX + (maxX - minX) * rand.nextFloat();
 		}
-
 	}
 
 }
