@@ -20,7 +20,7 @@ public class Game extends PApplet {
 	}
 
 	public void setup() {
-		frameRate(15);
+		frameRate(60);
 		// Gegner erzeugen
 		tick.update();
 		for (int i = 0; i < Enemy1.length; i++) {
