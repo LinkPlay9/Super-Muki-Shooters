@@ -15,6 +15,8 @@ public class KeyHandler extends PApplet{
         
         switch (key) {
         
+        //Ascii Code des Buttons angeben
+        
         case 32:
         	
         	return keySpace = b;
