@@ -43,6 +43,7 @@ public class Game extends PApplet {
 		lost = loadImage("data/Backgrounds/nigga.jpg");
 		won = loadImage("data/Backgrounds/won.jpg");
 		loop();
+
 	}
 
 	public void draw() {
@@ -116,8 +117,7 @@ public class Game extends PApplet {
 
 		else if (playerHitPoints >= 0 && ene.isEmpty()) {
 			fill(255, 0, 0);
-			text("U WON!", width / 2, height / 2);
-			image(won, 400, 300);
+			image(won, 300, 100);
 		}
 	}
 
@@ -163,6 +163,7 @@ public class Game extends PApplet {
 					Player1.y + 50) <= 40) {
 				playerHitPoints = playerHitPoints - 10;
 				schussGegner.remove(i);
+
 			}
 		}
 	}
