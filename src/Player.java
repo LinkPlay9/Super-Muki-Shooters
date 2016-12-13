@@ -24,25 +24,13 @@ public class Player extends MainObject {
 	}
 
 	public void movePlayer() {
-		if (drawing.keyPressed) {
+		
 
-			if (drawing.key == 'a' || drawing.key == 'A') {
-				this.x += -350 * clock.elapsedTime;
+		if (KeyHandler.keyA) {	this.x += -350 * Clock.elapsedTime; }
 
-			}
+		if (KeyHandler.keyD) {	this.x += 350 * Clock.elapsedTime; }
 
-			if (drawing.key == 'd' || drawing.key == 'D') {
-				this.x += 350 * clock.elapsedTime;
-
-			}
-
-			if (drawing.key == ESC)
-
-			{
-				System.exit(1);
-
-			}
-		}
+		if (drawing.key == ESC) { System.exit(1); }
 
 		// Damit der Spieler nicht aus dem Feld kann
 		if (this.x <= 0) {

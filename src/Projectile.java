@@ -18,7 +18,7 @@ public class Projectile extends MainObject {
 	}
 
 	public void shoot() {
-		this.y -= 200 * clock.elapsedTime;
+		this.y -= 200 * Clock.elapsedTime;
 
 	}
 
