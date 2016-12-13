@@ -26,24 +26,21 @@ public class Player extends MainObject {
 	public void movePlayer() {
 		this.x = this.x + velX;
 
-		if (drawing.keyPressed) {
+		if (keyA) {
+			this.x += -500 * clock.elapsedTime;
 
-			if (drawing.key == 'a' || drawing.key == 'A') {
-				this.x += -500 * clock.elapsedTime;
+		}
 
-			}
+		if (keyD) {
+			this.x += 500 * clock.elapsedTime;
 
-			if (drawing.key == 'd' || drawing.key == 'D') {
-				this.x += 500 * clock.elapsedTime;
+		}
 
-			}
+		if (drawing.key == ESC)
 
-			if (drawing.key == ESC)
+		{
+			System.exit(1);
 
-			{
-				System.exit(1);
-
-			}
 		}
 
 		// Damit der Spieler nicht aus dem Feld kann
