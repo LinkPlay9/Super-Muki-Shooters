@@ -5,12 +5,13 @@ import processing.core.PImage;
 
 public class Game extends PApplet {
 	// Bilder,Spieler,Gegner,Projektile Deklarieren
-	PImage bg, meme;
+	PImage bg, lost, won;
 	Player Player1 = new Player(this);
 	ArrayList<Enemy> ene = new ArrayList<Enemy>();
 	ArrayList<Projectile> schussPlayer = new ArrayList<Projectile>();
 	ArrayList<ProjectileEnemy> schussGegner = new ArrayList<ProjectileEnemy>();
-	int playerHitPoints = 100;
+	private static int playerHitPoints = 100;
+	public int points = 0;
 	boolean canShoot = true;
 	int canShootCounter;
 	clock tick = new clock();
@@ -25,7 +26,7 @@ public class Game extends PApplet {
 		// Gegner erzeugen
 		tick.update();
 		// Gegner erstellen
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 10; i++) {
 			ene.add(new Enemy(this));
 		}
 		// Projektile für die Gegner erstellen
@@ -40,7 +41,8 @@ public class Game extends PApplet {
 		size(800, 600, P2D);
 		bg = loadImage("data/Backgrounds/Level1.jpg");
 		bg.resize(width, height);
-		meme = loadImage("data/Backgrounds/nigga.jpg");
+		lost = loadImage("data/Backgrounds/nigga.jpg");
+		won = loadImage("data/Backgrounds/won.jpg");
 		loop();
 	}
 
@@ -66,8 +68,14 @@ public class Game extends PApplet {
 				playerHitPoints = playerHitPoints - 5;
 				ene.get(i).enemyRandomSpawn();
 			}
+			// Wenn der Spieler 0 Punkte hat dann set Punkte auf 0, und alle
+			// enemys löschen
 			if (playerHitPoints == 0) {
+				playerHitPoints = 0;
 				ene.clear();
+				fill(255, 0, 0);
+				text("U LOST!", width / 2, height / 2);
+				image(lost, width / 2, height / 2);
 			}
 		}
 
@@ -80,22 +88,6 @@ public class Game extends PApplet {
 			}
 		}
 
-		// Wenn spieler 0 hp hat dann nice meme
-		if (playerHitPoints == 0) {
-			textSize(50);
-			fill(255, 0, 0);
-			text("U LOST!", width / 2, height / 2);
-			image(meme, width / 2, height / 2);
-		}
-		// HP-Anzeige
-		fill(220, 153, 255);
-		textSize(20);
-		text("HP: " + (int) playerHitPoints, 720, 20);
-
-		// Methode zum Schießen , KLAPPT
-		msis();
-		// wenn gegner getroffen wird dann gegner tot
-		ifEnemyHit();
 		// Projectile erstellen & zeichnen & Schießen &&
 		// Wenn Projektil ausserhalb Fenster dann aus ArrayList Löschen
 		for (int i = 0; i < schussPlayer.size(); i++) {
@@ -106,7 +98,20 @@ public class Game extends PApplet {
 			}
 
 		}
+		// Methode zum Schießen , KLAPPT
+		msis();
+		// wenn gegner getroffen wird dann gegner tot
+		ifEnemyHit();
 
+		// Points anzeige
+		fill(220, 153, 255);
+		textSize(20);
+		text("Points: " + points, 690, 40);
+
+		// HP-Anzeige
+		fill(220, 153, 255);
+		textSize(20);
+		text("HP: " + (int) playerHitPoints, 720, 20);
 	}
 
 	// Methode zum Schießen , KLAPPT !
@@ -124,7 +129,7 @@ public class Game extends PApplet {
 		if (canShoot == false) {
 			canShootCounter++;
 			// if the right amount of time has passed. make canShoot true
-			if (canShootCounter == 25)/*
+			if (canShootCounter == 30)/*
 										 * change this number to change the
 										 * duration
 										 */ {
@@ -136,15 +141,18 @@ public class Game extends PApplet {
 	public void ifEnemyHit() {
 		for (int i = 0; i < schussPlayer.size(); i++) {
 			for (int j = 0; j < ene.size(); j++) {
-				if (PApplet.dist(schussPlayer.get(i).x, schussPlayer.get(i).y, ene.get(j).x, ene.get(j).y) <= 20) {
+				if (PApplet.dist(schussPlayer.get(i).x + 10, schussPlayer.get(i).y + 10, ene.get(j).x + 25,
+						ene.get(j).y + 25) <= 20) {
+					points = points + 10;
 					ene.remove(j);
+					// Wenn Player gewinnt
 					if (ene.isEmpty()) {
-
+						textSize(50);
+						fill(255, 0, 0);
+						image(won, 300, 200);
 					}
 				}
-
 			}
-
 		}
 	}
 }

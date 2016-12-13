@@ -55,7 +55,5 @@ public class Player extends MainObject {
 			this.x = 749;
 
 		}
-
 	}
-
 }
