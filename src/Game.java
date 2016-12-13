@@ -152,7 +152,6 @@ public class Game extends PApplet {
 						ene.get(j).y + 25) <= 20) {
 					points = points + 10;
 					ene.remove(j);
-					schussPlayer.remove(i);
 				}
 			}
 		}
