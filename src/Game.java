@@ -26,7 +26,7 @@ public class Game extends PApplet {
 		// Gegner erzeugen
 		tick.update();
 		// Gegner erstellen
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 5; i++) {
 			ene.add(new Enemy(this));
 		}
 		// Projektile für die Gegner erstellen
@@ -50,9 +50,21 @@ public class Game extends PApplet {
 		noStroke();
 		background(bg);
 		tick.update();
+
+		// FPS-ANzeige
 		fill(220, 153, 255);
 		textSize(20);
 		text("FPS: " + (int) frameRate, 0, 20);
+
+		// Points anzeige
+		fill(220, 153, 255);
+		textSize(20);
+		text("Points: " + points, 690, 40);
+
+		// HP-Anzeige
+		fill(220, 153, 255);
+		textSize(20);
+		text("HP: " + (int) playerHitPoints, 720, 20);
 
 		// Spieler erzeugen
 		Player1.drawPlayer();
@@ -67,15 +79,6 @@ public class Game extends PApplet {
 			if (ene.get(i).y >= 600 - 25) {
 				playerHitPoints = playerHitPoints - 5;
 				ene.get(i).enemyRandomSpawn();
-			}
-			// Wenn der Spieler 0 Punkte hat dann set Punkte auf 0, und alle
-			// enemys löschen
-			if (playerHitPoints == 0) {
-				playerHitPoints = 0;
-				ene.clear();
-				fill(255, 0, 0);
-				text("U LOST!", width / 2, height / 2);
-				image(lost, width / 2, height / 2);
 			}
 		}
 
@@ -96,22 +99,27 @@ public class Game extends PApplet {
 			if (schussPlayer.get(i).y <= 0) {
 				schussPlayer.remove(0);
 			}
-
 		}
 		// Methode zum Schießen , KLAPPT
 		msis();
 		// wenn gegner getroffen wird dann gegner tot
 		ifEnemyHit();
+		// wenn Player getroffen wird
+		ifPlayerHit();
 
-		// Points anzeige
-		fill(220, 153, 255);
-		textSize(20);
-		text("Points: " + points, 690, 40);
+		if (playerHitPoints == 0) {
+			playerHitPoints = 0;
+			ene.clear();
+			fill(255, 0, 0);
+			text("U LOST!", width / 2, height / 2);
+			image(lost, width / 2, height / 2);
+		}
 
-		// HP-Anzeige
-		fill(220, 153, 255);
-		textSize(20);
-		text("HP: " + (int) playerHitPoints, 720, 20);
+		else if (playerHitPoints >= 0 && ene.isEmpty()) {
+			fill(255, 0, 0);
+			text("U WON!", width / 2, height / 2);
+			image(won, 400, 300);
+		}
 	}
 
 	// Methode zum Schießen , KLAPPT !
@@ -145,13 +153,17 @@ public class Game extends PApplet {
 						ene.get(j).y + 25) <= 20) {
 					points = points + 10;
 					ene.remove(j);
-					// Wenn Player gewinnt
-					if (ene.isEmpty()) {
-						textSize(50);
-						fill(255, 0, 0);
-						image(won, 300, 200);
-					}
 				}
+			}
+		}
+	}
+
+	public void ifPlayerHit() {
+		for (int i = 0; i < schussGegner.size(); i++) {
+			if (PApplet.dist(schussGegner.get(i).x + 10, schussGegner.get(i).y + 10, Player1.x + 50,
+					Player1.y + 50) <= 40) {
+				playerHitPoints = playerHitPoints - 10;
+				schussGegner.remove(i);
 			}
 		}
 	}
