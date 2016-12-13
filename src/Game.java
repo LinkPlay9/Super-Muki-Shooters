@@ -8,13 +8,12 @@ public class Game extends PApplet {
 	PImage bg, meme;
 	Player Player1 = new Player(this);
 	ArrayList<Enemy> ene = new ArrayList<Enemy>();
-	ArrayList<Projectile> schuss = new ArrayList<Projectile>();
+	ArrayList<Projectile> schussPlayer = new ArrayList<Projectile>();
 	ArrayList<ProjectileEnemy> schussGegner = new ArrayList<ProjectileEnemy>();
 	int playerHitPoints = 100;
 	boolean canShoot = true;
 	int canShootCounter;
 	clock tick = new clock();
-	ProjectileEnemy kill2;
 
 	public static void main(String[] args) {
 		PApplet.main("Game");
@@ -26,13 +25,12 @@ public class Game extends PApplet {
 		// Gegner erzeugen
 		tick.update();
 		// Gegner erstellen
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 6; i++) {
 			ene.add(new Enemy(this));
 		}
 		// Projektile für die Gegner erstellen
-		for (int i = 0; i < ene.size() - 1; i++) {
+		for (int i = 0; i < ene.size(); i++) {
 			schussGegner.add(new ProjectileEnemy(this, ene, i));
-
 		}
 
 	}
@@ -61,34 +59,26 @@ public class Game extends PApplet {
 		Player1.movePlayer();
 
 		// Gegner zeichnen, moven wenn Gegner durchkommt wird gegner schneller
-		Enemy k = (new Enemy(this));
-		for (int i = 0; i < ene.size() - 1; i++) {
-			k = ene.get(i);
-			k.drawEnemy();
-			k.update();
-			// GegnerProjectile erstellen und Schießen
-			kill2 = new ProjectileEnemy(this, ene, i);
-			kill2 = schussGegner.get(i);
-			kill2.drawProjectileEnemy();
-			kill2.shootEnemy();
-			// Wenn Gegner durchkommt verliert Spieler 5 HP
-			if (k.enemyThrough()) {
+		for (int i = 0; i < ene.size(); i++) {
+			ene.get(i).drawEnemy();
+			ene.get(i).update();
+			if (ene.get(i).y >= 600 - 25) {
 				playerHitPoints = playerHitPoints - 5;
-				k.enemySpeedUp();
-			}
-			// Wenn GegnerKugel Player trifft verliert der 20 HP , NOCH NICHT
-			// FERTIG !!
-			if (Player1.y - kill2.y == 10) {
-				playerHitPoints = playerHitPoints - 20;
+				ene.get(i).enemyRandomSpawn();
 			}
 			if (playerHitPoints == 0) {
 				ene.clear();
-
 			}
-
 		}
 
-		// System.out.println(schussGegner.size());
+		// GegnerProjectile erstellen und Schießen
+		for (int i = 0; i < schussGegner.size(); i++) {
+			schussGegner.get(i).drawProjectileEnemy();
+			schussGegner.get(i).shootEnemy();
+			if (schussGegner.get(i).y >= 600 - 10) {
+				schussGegner.remove(i);
+			}
+		}
 
 		// Wenn spieler 0 hp hat dann nice meme
 		if (playerHitPoints == 0) {
@@ -104,18 +94,19 @@ public class Game extends PApplet {
 
 		// Methode zum Schießen , KLAPPT
 		msis();
-
-		// Projectile erstellen & zeichnen & Schießen
-		Projectile kill = new Projectile(this, Player1);
-		for (int i = 0; i < schuss.size(); i++) {
-			kill = schuss.get(i);
-			kill.draw();
-			kill.shoot();
-			if (schuss.get(i).y <= 0) {
-				schuss.remove(0);
+		// wenn gegner getroffen wird dann gegner tot
+		ifEnemyHit();
+		// Projectile erstellen & zeichnen & Schießen &&
+		// Wenn Projektil ausserhalb Fenster dann aus ArrayList Löschen
+		for (int i = 0; i < schussPlayer.size(); i++) {
+			schussPlayer.get(i).draw();
+			schussPlayer.get(i).shoot();
+			if (schussPlayer.get(i).y <= 0) {
+				schussPlayer.remove(0);
 			}
+
 		}
-		// System.out.println(schussGegner.size());
+
 	}
 
 	// Methode zum Schießen , KLAPPT !
@@ -123,7 +114,7 @@ public class Game extends PApplet {
 		if (mousePressed) {
 			// this regulates the shooting speed
 			if (canShoot == true) {
-				schuss.add(new Projectile(this, Player1));
+				schussPlayer.add(new Projectile(this, Player1));
 				canShoot = false;
 				canShootCounter = 0;
 			}
@@ -133,7 +124,7 @@ public class Game extends PApplet {
 		if (canShoot == false) {
 			canShootCounter++;
 			// if the right amount of time has passed. make canShoot true
-			if (canShootCounter == 35)/*
+			if (canShootCounter == 25)/*
 										 * change this number to change the
 										 * duration
 										 */ {
@@ -142,4 +133,18 @@ public class Game extends PApplet {
 		}
 	}
 
+	public void ifEnemyHit() {
+		for (int i = 0; i < schussPlayer.size(); i++) {
+			for (int j = 0; j < ene.size(); j++) {
+				if (PApplet.dist(schussPlayer.get(i).x, schussPlayer.get(i).y, ene.get(j).x, ene.get(j).y) <= 20) {
+					ene.remove(j);
+					if (ene.isEmpty()) {
+
+					}
+				}
+
+			}
+
+		}
+	}
 }

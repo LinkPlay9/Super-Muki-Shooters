@@ -3,7 +3,7 @@ import java.util.Random;
 import processing.core.PApplet;
 
 public class Enemy extends MainObject {
-
+	boolean ns = false;
 	public float velocityX, velocityY;
 	Random rand = new Random();
 	float minY = -92;
@@ -33,16 +33,8 @@ public class Enemy extends MainObject {
 		this.y += velocityY * clock.elapsedTime;
 	}
 
-	public boolean enemyThrough() {
-		boolean ns = false;
-		if (this.y > 600 - 26) {
-			ns = true;
-		}
-		return ns;
-	}
-
-	public void enemySpeedUp() {
-		velocityY += 10;
+	public void enemyRandomSpawn() {
+		velocityY += 50;
 		this.y = minY + (maxY - minY) * rand.nextFloat();
 		this.x = minX + (maxX - minX) * rand.nextFloat();
 	}

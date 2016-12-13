@@ -13,12 +13,12 @@ public class ProjectileEnemy extends MainObject {
 	}
 
 	public void drawProjectileEnemy() {
-		drawing.fill(255, 125, 0);
+		drawing.fill(255, 0, 0);
 		drawing.ellipse(this.x, this.y, 10, 10);
 	}
 
 	public void shootEnemy() {
-		this.y += 100 * clock.elapsedTime;
+		this.y += 70 * clock.elapsedTime;
 	}
 
 }
