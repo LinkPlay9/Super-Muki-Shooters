@@ -6,14 +6,19 @@ public class KeyHandler extends PApplet{
 		keyW,
 		keyA,
 		keyS,
-		keyD;
+		keyD,
+		keySpace;
     
     int keyUsed;
             
     static boolean setMove(int key, boolean b) {
         
         switch (key) {
-            
+        
+        case 32:
+        	
+        	return keySpace = b;
+       
         case 87:
             
             return keyW = b;

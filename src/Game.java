@@ -123,7 +123,7 @@ public class Game extends PApplet {
 
 	// Methode zum Schießen , KLAPPT !
 	public void msis() {
-		if (mousePressed) {
+		if (KeyHandler.keySpace) {
 			// this regulates the shooting speed
 			if (canShoot == true) {
 				schussPlayer.add(new Projectile(this, Player1));
