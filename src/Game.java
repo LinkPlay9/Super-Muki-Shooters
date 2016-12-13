@@ -33,7 +33,6 @@ public class Game extends PApplet {
 		for (int i = 0; i < ene.size(); i++) {
 			schussGegner.add(new ProjectileEnemy(this, ene, i));
 		}
-
 	}
 
 	public void settings() {
@@ -72,7 +71,7 @@ public class Game extends PApplet {
 		// Keyevents Spieler
 		Player1.movePlayer();
 
-		// Gegner zeichnen, moven wenn Gegner durchkommt wird gegner schneller
+		// Gegner zeichnen, moven, wenn Gegner durchkommt wird gegner schneller
 		for (int i = 0; i < ene.size(); i++) {
 			ene.get(i).drawEnemy();
 			ene.get(i).update();
@@ -82,16 +81,16 @@ public class Game extends PApplet {
 			}
 		}
 
-		// GegnerProjectile erstellen und Schießen
+		// GegnerProjectile zeichnen und Schießen
 		for (int i = 0; i < schussGegner.size(); i++) {
 			schussGegner.get(i).drawProjectileEnemy();
 			schussGegner.get(i).shootEnemy();
-			if (schussGegner.get(i).y >= 600 - 10) {
+			if (schussGegner.get(i).y >= 600 - 5) {
 				schussGegner.remove(i);
 			}
 		}
 
-		// Projectile erstellen & zeichnen & Schießen &&
+		// Projectile für den Player erstellen & zeichnen & Schießen &&
 		// Wenn Projektil ausserhalb Fenster dann aus ArrayList Löschen
 		for (int i = 0; i < schussPlayer.size(); i++) {
 			schussPlayer.get(i).draw();

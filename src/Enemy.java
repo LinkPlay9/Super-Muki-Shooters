@@ -3,7 +3,6 @@ import java.util.Random;
 import processing.core.PApplet;
 
 public class Enemy extends MainObject {
-	boolean ns = false;
 	public float velocityX, velocityY;
 	Random rand = new Random();
 	float minY = -92;
