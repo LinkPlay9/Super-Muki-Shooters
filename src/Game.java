@@ -5,7 +5,7 @@ import processing.core.PImage;
 
 public class Game extends PApplet {
 	// Bilder,Spieler,Gegner,Projektile Deklarieren
-	PImage bg, lost, won;
+	PImage bg, lost, won, startscreen;
 	Player Player1 = new Player(this);
 	ArrayList<Enemy> ene = new ArrayList<Enemy>();
 	ArrayList<Projectile> schussPlayer = new ArrayList<Projectile>();
@@ -14,11 +14,12 @@ public class Game extends PApplet {
 	public int points = 0;
 	boolean canShoot = true;
 	int canShootCounter;
+	public int gamestate = 0;
 	Clock tick = new Clock();
+	int startX, startY, startSize;
 
 	public static void main(String[] args) {
 		PApplet.main("Game");
-
 	}
 
 	public void setup() {
@@ -42,83 +43,106 @@ public class Game extends PApplet {
 		bg.resize(width, height);
 		lost = loadImage("data/Backgrounds/nigga.jpg");
 		won = loadImage("data/Backgrounds/won.jpg");
+		startscreen = loadImage("data/start.png");
 		loop();
-
 	}
 
 	public void draw() {
-		noStroke();
-		background(bg);
-		tick.update();
+		//Menu
+		if(gamestate == 0){
+			noStroke();
+			tick.update();
+			image(startscreen,0,0);
+			stroke(255);
+			fill(255,0,0);
+			int rectX = 275;
+			int rectY = 175;
+			int rectSize = 250;
 
-		// FPS-ANzeige
-		fill(220, 153, 255);
-		textSize(20);
-		text("FPS: " + (int) frameRate, 0, 20);
-
-		// Points anzeige
-		fill(220, 153, 255);
-		textSize(20);
-		text("Points: " + points, 690, 40);
-
-		// HP-Anzeige
-		fill(220, 153, 255);
-		textSize(20);
-		text("HP: " + (int) playerHitPoints, 720, 20);
-
-		// Spieler erzeugen
-		Player1.drawPlayer();
-
-		// Keyevents Spieler
-		Player1.movePlayer();
-
-		// Gegner zeichnen, moven, wenn Gegner durchkommt wird gegner schneller
-		for (int i = 0; i < ene.size(); i++) {
-			ene.get(i).drawEnemy();
-			ene.get(i).update();
-			if (ene.get(i).y >= 600 - 25) {
-				playerHitPoints = playerHitPoints - 5;
-				ene.get(i).enemyRandomSpawn();
+			rect(rectX, rectY, rectSize, rectSize);
+			if(mouseX >= rectX && mouseX <= rectX+rectSize && mouseY >= rectY && mouseY <= rectY+rectSize){
+				if(mousePressed){
+					gamestate = 1;
+				}
 			}
 		}
+		
+		//Level 1
+		if(gamestate == 1){
+			noStroke();
+			background(bg);
+			tick.update();
 
-		// GegnerProjectile zeichnen und Schießen
-		for (int i = 0; i < schussGegner.size(); i++) {
-			schussGegner.get(i).drawProjectileEnemy();
-			schussGegner.get(i).shootEnemy();
-			if (schussGegner.get(i).y >= 600 - 5) {
-				schussGegner.remove(i);
+			// FPS-ANzeige
+			fill(220, 153, 255);
+			textSize(20);
+			text("FPS: " + (int) frameRate, 0, 20);
+
+			// Points anzeige
+			fill(220, 153, 255);
+			textSize(20);
+			text("Points: " + points, 690, 40);
+
+			// HP-Anzeige
+			fill(220, 153, 255);
+			textSize(20);
+			text("HP: " + (int) playerHitPoints, 720, 20);
+
+			// Spieler erzeugen
+			Player1.drawPlayer();
+
+			// Keyevents Spieler
+			Player1.movePlayer();
+
+			// Gegner zeichnen, moven, wenn Gegner durchkommt wird gegner schneller
+			for (int i = 0; i < ene.size(); i++) {
+				ene.get(i).drawEnemy();
+				ene.get(i).update();
+				if (ene.get(i).y >= 600 - 25) {
+					playerHitPoints = playerHitPoints - 5;
+					ene.get(i).enemyRandomSpawn();
+				}
+			}
+
+			// GegnerProjectile zeichnen und Schießen
+			for (int i = 0; i < schussGegner.size(); i++) {
+				schussGegner.get(i).drawProjectileEnemy();
+				schussGegner.get(i).shootEnemy();
+				if (schussGegner.get(i).y >= 600 - 5) {
+					schussGegner.remove(i);
+				}
+			}
+
+			// Projectile für den Player erstellen & zeichnen & Schießen &&
+			// Wenn Projektil ausserhalb Fenster dann aus ArrayList Löschen
+			for (int i = 0; i < schussPlayer.size(); i++) {
+				schussPlayer.get(i).draw();
+				schussPlayer.get(i).shoot();
+				if (schussPlayer.get(i).y <= 0) {
+					schussPlayer.remove(0);
+				}
+			}
+			// Methode zum Schießen , KLAPPT
+			msis();
+			// wenn gegner getroffen wird dann gegner tot
+			ifEnemyHit();
+			// wenn Player getroffen wird
+			ifPlayerHit();
+
+			if (playerHitPoints <= 0) {
+				playerHitPoints = 0;
+				ene.clear();
+				fill(255, 0, 0);
+				text("U LOST!", width / 2, height / 2);
+				image(lost, width / 2, height / 2);
+			}
+
+			else if (playerHitPoints >= 0 && ene.isEmpty()) {
+				fill(255, 0, 0);
+				image(won, 300, 100);
 			}
 		}
-
-		// Projectile für den Player erstellen & zeichnen & Schießen &&
-		// Wenn Projektil ausserhalb Fenster dann aus ArrayList Löschen
-		for (int i = 0; i < schussPlayer.size(); i++) {
-			schussPlayer.get(i).draw();
-			schussPlayer.get(i).shoot();
-			if (schussPlayer.get(i).y <= 0) {
-				schussPlayer.remove(0);
-			}
-		}
-		// Methode zum Schießen , KLAPPT
-		msis();
-		// wenn gegner getroffen wird dann gegner tot
-		ifEnemyHit();
-		// wenn Player getroffen wird
-		ifPlayerHit();
-
-		if (playerHitPoints <= 0) {
-			playerHitPoints = 0;
-			ene.clear();
-			fill(255, 0, 0);
-			text("U LOST!", width / 2, height / 2);
-			image(lost, width / 2, height / 2);
-		}
-
-		else if (playerHitPoints >= 0 && ene.isEmpty()) {
-			fill(255, 0, 0);
-			image(won, 300, 100);
-		}
+		
 	}
 
 	// Methode zum Schießen , KLAPPT !
@@ -136,7 +160,7 @@ public class Game extends PApplet {
 		if (canShoot == false) {
 			canShootCounter++;
 			// if the right amount of time has passed. make canShoot true
-			if (canShootCounter == 30)/*
+			if (canShootCounter == 50)/*
 										 * change this number to change the
 										 * duration
 										 */ {
@@ -146,13 +170,13 @@ public class Game extends PApplet {
 	}
 
 	public void ifEnemyHit() {
-		for (int i = 0; i < schussPlayer.size(); i++) {
-			for (int j = 0; j < ene.size(); j++) {
-				if (PApplet.dist(schussPlayer.get(i).x + 10, schussPlayer.get(i).y + 10, ene.get(j).x + 25,
-						ene.get(j).y + 25) <= 20) {
+		for (int i = 0; i < ene.size() ; i++) {
+			for (int j = 0; j <schussPlayer.size(); j++) {
+				if (PApplet.dist(schussPlayer.get(j).x + 10, schussPlayer.get(j).y + 10, ene.get(i).x + 25,
+						ene.get(i).y + 25) <= 20) {
 					points = points + 10;
-					ene.remove(j);
-					schussPlayer.remove(i);
+					ene.remove(i);
+					schussPlayer.remove(j);
 				}
 			}
 		}
