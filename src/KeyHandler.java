@@ -2,7 +2,14 @@ import processing.core.*;
 
 public class KeyHandler extends PApplet{
 	
-	boolean goUp, goDown, goLeft, goRight, triggered;
+	boolean keyUp,
+		keyDown,
+		keyLeft,
+		keyRight,
+		keyW,
+		keyA,
+		keyS,
+		keyD;
     
     int keyUsed;
             
@@ -26,9 +33,21 @@ public class KeyHandler extends PApplet{
             
             return goRight = b;
             
-        case 'T':
+        case 'w':
             
-            return triggered = b;
+            return keyW = b;
+            
+        case 'a':
+            
+            return keyA = b;
+            
+        case 's':
+            
+            return keyS = b;
+            
+        case 'd':
+            
+            return keyD = b;
             
         default:
             
