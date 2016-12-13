@@ -26,7 +26,7 @@ public class Game extends PApplet {
 		// Gegner erzeugen
 		tick.update();
 		// Gegner erstellen
-		for (int i = 0; i < 25; i++) {
+		for (int i = 0; i < 15; i++) {
 			ene.add(new Enemy(this));
 		}
 		// Projektile für die Gegner erstellen
@@ -168,11 +168,11 @@ public class Game extends PApplet {
 			}
 		}
 	}
-	
+
 	public void keyPressed() {
 		KeyHandler.setMove(keyCode, true);
 	}
-	
+
 	public void keyReleased() {
 		KeyHandler.setMove(keyCode, false);
 	}
