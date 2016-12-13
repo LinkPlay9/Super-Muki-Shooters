@@ -26,7 +26,7 @@ public class Game extends PApplet {
 		// Gegner erzeugen
 		tick.update();
 		// Gegner erstellen
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 25; i++) {
 			ene.add(new Enemy(this));
 		}
 		// Projektile für die Gegner erstellen
@@ -107,7 +107,7 @@ public class Game extends PApplet {
 		// wenn Player getroffen wird
 		ifPlayerHit();
 
-		if (playerHitPoints == 0) {
+		if (playerHitPoints <= 0) {
 			playerHitPoints = 0;
 			ene.clear();
 			fill(255, 0, 0);

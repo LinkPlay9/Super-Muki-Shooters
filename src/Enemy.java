@@ -5,7 +5,7 @@ import processing.core.PApplet;
 public class Enemy extends MainObject {
 	public float velocityX, velocityY;
 	Random rand = new Random();
-	float minY = -92;
+	float minY = -900;
 	float maxY = -10;
 	float finalY = minY + (maxY - minY) * rand.nextFloat();
 	float minX = 100;
