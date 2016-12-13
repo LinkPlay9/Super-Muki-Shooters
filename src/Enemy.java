@@ -29,7 +29,7 @@ public class Enemy extends MainObject {
 	}
 
 	public void update() {
-		this.y += velocityY * clock.elapsedTime;
+		this.y += velocityY * Clock.elapsedTime;
 	}
 
 	public void enemyRandomSpawn() {

@@ -14,7 +14,7 @@ public class Game extends PApplet {
 	public int points = 0;
 	boolean canShoot = true;
 	int canShootCounter;
-	clock tick = new clock();
+	Clock tick = new Clock();
 
 	public static void main(String[] args) {
 		PApplet.main("Game");
@@ -165,5 +165,13 @@ public class Game extends PApplet {
 				schussGegner.remove(i);
 			}
 		}
+	}
+	
+	public void keyPressed() {
+		KeyHandler.setMove(keyCode, true);
+	}
+	
+	public void keyReleased() {
+		KeyHandler.setMove(keyCode, false);
 	}
 }

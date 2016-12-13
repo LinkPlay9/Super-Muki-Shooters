@@ -1,6 +1,6 @@
 import processing.core.PApplet;
 
-public class clock extends PApplet {
+public class Clock extends PApplet {
 
 	static float cur, prev, elapsedTime;
 
