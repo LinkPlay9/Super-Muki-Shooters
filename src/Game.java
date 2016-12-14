@@ -27,7 +27,7 @@ public class Game extends PApplet {
 		// Gegner erzeugen
 		tick.update();
 		// Gegner erstellen
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < 5; i++) {
 			ene.add(new Enemy(this));
 		}
 		// Projektile für die Gegner erstellen
@@ -60,6 +60,7 @@ public class Game extends PApplet {
 		if (gamestate == 0) {
 			noStroke();
 			tick.update();
+			surface.setTitle("SUPER-MUKI-SHOOTER");
 			image(startscreen, 0, 0);
 			image(nigglet, 0, 0);
 			image(peter, 0, 600 - 150);
@@ -112,13 +113,17 @@ public class Game extends PApplet {
 
 			// Gegner zeichnen, moven, wenn Gegner durchkommt wird gegner
 			// schneller
-			for (int i = 0; i < ene.size(); i++) {
+			for (int i = 0; i < ene.size() - 1; i++) {
 				ene.get(i).drawEnemy();
 				ene.get(i).update();
 				if (ene.get(i).y >= 600 - 25) {
 					playerHitPoints = playerHitPoints - 5;
 					ene.get(i).enemyRandomSpawn();
 				}
+			}
+			// Bugfix mit dem Gegner
+			if (ene.size() == 1) {
+				ene.clear();
 			}
 
 			// GegnerProjectile zeichnen und Schießen
@@ -139,12 +144,6 @@ public class Game extends PApplet {
 					schussPlayer.remove(i);
 				}
 			}
-			// Methode zum Schießen , KLAPPT
-			msis();
-			// wenn gegner getroffen wird dann gegner tot
-			ifEnemyHit();
-			// wenn Player getroffen wird
-			ifPlayerHit();
 
 			if (playerHitPoints <= 0) {
 				playerHitPoints = 0;
@@ -159,8 +158,13 @@ public class Game extends PApplet {
 				image(won, 300, 100);
 			}
 		}
-
-		// System.out.println(schussPlayer.size());
+		// Methode zum Schießen , KLAPPT
+		msis();
+		// wenn gegner getroffen wird dann gegner tot
+		ifEnemyHit();
+		// wenn Player getroffen wird
+		ifPlayerHit();
+		System.out.println(ene.size());
 	}
 
 	// Methode zum Schießen , KLAPPT !
@@ -188,13 +192,13 @@ public class Game extends PApplet {
 	}
 
 	public void ifEnemyHit() {
-		for (int i = 0; i < ene.size(); i++) {
+		for (int i = 0; i < ene.size() - 1; i++) {
 			for (int j = 0; j < schussPlayer.size(); j++) {
 				if (PApplet.dist(schussPlayer.get(j).x + 10, schussPlayer.get(j).y + 10, ene.get(i).x + 25,
-						ene.get(i).y + 25) <= 25) {
+						ene.get(i).y + 25) <= 20) {
 					points = points + 10;
-					schussPlayer.remove(j);
 					ene.remove(i);
+					schussPlayer.remove(j);
 				}
 			}
 		}
