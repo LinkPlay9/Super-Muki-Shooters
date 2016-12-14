@@ -5,7 +5,7 @@ import processing.core.PImage;
 
 public class Game extends PApplet {
 	// Bilder,Spieler,Gegner,Projektile Deklarieren
-	PImage bg, lost, won, startscreen, peter, nigglet, toni, flip;
+	PImage bg, lost, won, startscreen, playbutton, playbuttonhvr;
 	Player Player1 = new Player(this);
 	ArrayList<Enemy> ene = new ArrayList<Enemy>();
 	ArrayList<Projectile> schussPlayer = new ArrayList<Projectile>();
@@ -43,15 +43,9 @@ public class Game extends PApplet {
 		bg.resize(width, height);
 		lost = loadImage("data/Backgrounds/nigga.jpg");
 		won = loadImage("data/Backgrounds/won.jpg");
-		startscreen = loadImage("data/sik.jpg");
-		nigglet = loadImage("data/Backgrounds/mathaan.jpg");
-		nigglet.resize(150, 150);
-		peter = loadImage("data/Backgrounds/panna.jpg");
-		peter.resize(150, 150);
-		toni = loadImage("data/Backgrounds/toni.jpg");
-		toni.resize(150, 150);
-		flip = loadImage("data/Backgrounds/phillip.jpg");
-		flip.resize(150, 150);
+		startscreen = loadImage("data/start.png");
+		playbutton = loadImage("data/Button/play.png");
+		playbuttonhvr = loadImage("data/Button/playhovr.png");
 		loop();
 	}
 
@@ -60,27 +54,24 @@ public class Game extends PApplet {
 		if (gamestate == 0) {
 			noStroke();
 			tick.update();
-			surface.setTitle("SUPER-MUKI-SHOOTER");
+			//surface.setTitle("SUPER-MUKI-SHOOTER");
 			image(startscreen, 0, 0);
-			image(nigglet, 0, 0);
-			image(peter, 0, 600 - 150);
-			image(toni, 650, 0);
-			image(flip, 650, 450);
 			fill(3, 169, 244);
 			textSize(20);
-			text("SUPER-MUKI-SHOOTER", 290, 120);
+			//text("SUPER-MUKI-SHOOTER", 290, 120);
 			stroke(255);
 			fill(255, 0, 0);
 			int rectX = 275;
 			int rectY = 175;
 			int rectSize = 250;
-			rect(rectX, rectY, rectSize, rectSize);
 			if (mouseX >= rectX && mouseX <= rectX + rectSize && mouseY >= rectY && mouseY <= rectY + rectSize) {
 				fill(0, 255, 0);
-				rect(rectX, rectY, rectSize, rectSize);
+				image(playbuttonhvr,0,0);
 				if (mousePressed) {
 					gamestate = 1;
 				}
+			}else{
+				image(playbutton,0,0);
 			}
 		}
 
@@ -164,7 +155,7 @@ public class Game extends PApplet {
 		ifEnemyHit();
 		// wenn Player getroffen wird
 		ifPlayerHit();
-		System.out.println(ene.size());
+		//System.out.println(ene.size());
 	}
 
 	// Methode zum Schießen , KLAPPT !
