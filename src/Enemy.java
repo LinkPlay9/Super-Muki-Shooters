@@ -11,6 +11,7 @@ public class Enemy extends MainObject {
 	float minX = 100;
 	float maxX = 800 - 25;
 	float finalX = minX + (maxX - minX) * rand.nextFloat();
+	boolean sichtbar = false;
 
 	public Enemy(PApplet d) {
 		super(d);

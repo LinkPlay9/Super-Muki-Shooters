@@ -13,6 +13,7 @@ public class Game extends PApplet {
 	private static int playerHitPoints = 100;
 	public int points = 0;
 	boolean canShoot = true;
+	boolean setup = true;
 	int canShootCounter;
 	public static int gamestate = 0;
 	Clock tick = new Clock();
@@ -26,14 +27,6 @@ public class Game extends PApplet {
 		frameRate(1000);
 		// Gegner erzeugen
 		tick.update();
-		// Gegner erstellen
-		for (int i = 0; i < 7; i++) {
-			ene.add(new Enemy(this));
-		}
-		// Projektile für die Gegner erstellen
-		for (int i = 0; i < ene.size() - 1; i++) {
-			schussGegner.add(new ProjectileEnemy(this, ene, i));
-		}
 	}
 
 	public void settings() {
@@ -77,6 +70,20 @@ public class Game extends PApplet {
 
 		// Level 1
 		if (gamestate == 1) {
+			if(setup){
+
+				// Gegner erstellen
+				for (int i = 0; i < 7; i++) {
+					ene.add(new Enemy(this));
+				}
+				// Projektile für die Gegner erstellen
+				for (int i = 0; i < ene.size() - 1; i++) {
+					schussGegner.add(new ProjectileEnemy(this, ene, i));
+				}	
+				
+				//setup ausschalten
+				setup = false;
+			}
 			noStroke();
 			background(bg);
 			tick.update();
