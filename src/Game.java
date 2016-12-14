@@ -27,11 +27,11 @@ public class Game extends PApplet {
 		// Gegner erzeugen
 		tick.update();
 		// Gegner erstellen
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 7; i++) {
 			ene.add(new Enemy(this));
 		}
 		// Projektile für die Gegner erstellen
-		for (int i = 0; i < ene.size(); i++) {
+		for (int i = 0; i < ene.size() - 1; i++) {
 			schussGegner.add(new ProjectileEnemy(this, ene, i));
 		}
 	}
