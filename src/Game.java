@@ -5,7 +5,7 @@ import processing.core.PImage;
 
 public class Game extends PApplet {
 	// Bilder,Spieler,Gegner,Projektile Deklarieren
-	PImage bg, lost, won, startscreen;
+	PImage bg, lost, won, startscreen, peter, nigglet, toni, flip;
 	Player Player1 = new Player(this);
 	ArrayList<Enemy> ene = new ArrayList<Enemy>();
 	ArrayList<Projectile> schussPlayer = new ArrayList<Projectile>();
@@ -14,7 +14,7 @@ public class Game extends PApplet {
 	public int points = 0;
 	boolean canShoot = true;
 	int canShootCounter;
-	public int gamestate = 0;
+	public static int gamestate = 0;
 	Clock tick = new Clock();
 	int startX, startY, startSize;
 
@@ -43,32 +43,48 @@ public class Game extends PApplet {
 		bg.resize(width, height);
 		lost = loadImage("data/Backgrounds/nigga.jpg");
 		won = loadImage("data/Backgrounds/won.jpg");
-		startscreen = loadImage("data/start.png");
+		startscreen = loadImage("data/sik.jpg");
+		nigglet = loadImage("data/Backgrounds/mathaan.jpg");
+		nigglet.resize(150, 150);
+		peter = loadImage("data/Backgrounds/panna.jpg");
+		peter.resize(150, 150);
+		toni = loadImage("data/Backgrounds/toni.jpg");
+		toni.resize(150, 150);
+		flip = loadImage("data/Backgrounds/phillip.jpg");
+		flip.resize(150, 150);
 		loop();
 	}
 
 	public void draw() {
-		//Menu
-		if(gamestate == 0){
+		// Menu
+		if (gamestate == 0) {
 			noStroke();
 			tick.update();
-			image(startscreen,0,0);
+			image(startscreen, 0, 0);
+			image(nigglet, 0, 0);
+			image(peter, 0, 600 - 150);
+			image(toni, 650, 0);
+			image(flip, 650, 450);
+			fill(3, 169, 244);
+			textSize(20);
+			text("SUPER-MUKI-SHOOTER", 290, 120);
 			stroke(255);
-			fill(255,0,0);
+			fill(255, 0, 0);
 			int rectX = 275;
 			int rectY = 175;
 			int rectSize = 250;
-
 			rect(rectX, rectY, rectSize, rectSize);
-			if(mouseX >= rectX && mouseX <= rectX+rectSize && mouseY >= rectY && mouseY <= rectY+rectSize){
-				if(mousePressed){
+			if (mouseX >= rectX && mouseX <= rectX + rectSize && mouseY >= rectY && mouseY <= rectY + rectSize) {
+				fill(0, 255, 0);
+				rect(rectX, rectY, rectSize, rectSize);
+				if (mousePressed) {
 					gamestate = 1;
 				}
 			}
 		}
-		
-		//Level 1
-		if(gamestate == 1){
+
+		// Level 1
+		if (gamestate == 1) {
 			noStroke();
 			background(bg);
 			tick.update();
@@ -94,7 +110,8 @@ public class Game extends PApplet {
 			// Keyevents Spieler
 			Player1.movePlayer();
 
-			// Gegner zeichnen, moven, wenn Gegner durchkommt wird gegner schneller
+			// Gegner zeichnen, moven, wenn Gegner durchkommt wird gegner
+			// schneller
 			for (int i = 0; i < ene.size(); i++) {
 				ene.get(i).drawEnemy();
 				ene.get(i).update();
@@ -119,7 +136,7 @@ public class Game extends PApplet {
 				schussPlayer.get(i).draw();
 				schussPlayer.get(i).shoot();
 				if (schussPlayer.get(i).y <= 0) {
-					schussPlayer.remove(0);
+					schussPlayer.remove(i);
 				}
 			}
 			// Methode zum Schießen , KLAPPT
@@ -142,7 +159,8 @@ public class Game extends PApplet {
 				image(won, 300, 100);
 			}
 		}
-		
+
+		// System.out.println(schussPlayer.size());
 	}
 
 	// Methode zum Schießen , KLAPPT !
@@ -160,7 +178,7 @@ public class Game extends PApplet {
 		if (canShoot == false) {
 			canShootCounter++;
 			// if the right amount of time has passed. make canShoot true
-			if (canShootCounter == 50)/*
+			if (canShootCounter == 20)/*
 										 * change this number to change the
 										 * duration
 										 */ {
@@ -170,13 +188,13 @@ public class Game extends PApplet {
 	}
 
 	public void ifEnemyHit() {
-		for (int i = 0; i < ene.size() ; i++) {
-			for (int j = 0; j <schussPlayer.size(); j++) {
+		for (int i = 0; i < ene.size(); i++) {
+			for (int j = 0; j < schussPlayer.size(); j++) {
 				if (PApplet.dist(schussPlayer.get(j).x + 10, schussPlayer.get(j).y + 10, ene.get(i).x + 25,
-						ene.get(i).y + 25) <= 20) {
+						ene.get(i).y + 25) <= 25) {
 					points = points + 10;
-					ene.remove(i);
 					schussPlayer.remove(j);
+					ene.remove(i);
 				}
 			}
 		}
@@ -188,7 +206,6 @@ public class Game extends PApplet {
 					Player1.y + 50) <= 40) {
 				playerHitPoints = playerHitPoints - 10;
 				schussGegner.remove(i);
-
 			}
 		}
 	}
