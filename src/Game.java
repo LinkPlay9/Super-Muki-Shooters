@@ -14,9 +14,10 @@ public class Game extends PApplet {
 	public int points = 0;
 	boolean canShoot = true;
 	int canShootCounter;
-	public static int gamestate = 0;
+	public int gamestate = 0;
 	Clock tick = new Clock();
 	int startX, startY, startSize;
+	boolean shh = false;
 
 	public static void main(String[] args) {
 		PApplet.main("Game");
@@ -27,7 +28,7 @@ public class Game extends PApplet {
 		// Gegner erzeugen
 		tick.update();
 		// Gegner erstellen
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < 8; i++) {
 			ene.add(new Enemy(this));
 		}
 		// Projektile für die Gegner erstellen
@@ -54,11 +55,11 @@ public class Game extends PApplet {
 		if (gamestate == 0) {
 			noStroke();
 			tick.update();
-			//surface.setTitle("SUPER-MUKI-SHOOTER");
+			surface.setTitle("SUPER-MUKI-SHOOTER");
 			image(startscreen, 0, 0);
 			fill(3, 169, 244);
 			textSize(20);
-			//text("SUPER-MUKI-SHOOTER", 290, 120);
+			// text("SUPER-MUKI-SHOOTER", 290, 120);
 			stroke(255);
 			fill(255, 0, 0);
 			int rectX = 275;
@@ -66,12 +67,12 @@ public class Game extends PApplet {
 			int rectSize = 250;
 			if (mouseX >= rectX && mouseX <= rectX + rectSize && mouseY >= rectY && mouseY <= rectY + rectSize) {
 				fill(0, 255, 0);
-				image(playbuttonhvr,0,0);
+				image(playbuttonhvr, 0, 0);
 				if (mousePressed) {
 					gamestate = 1;
 				}
-			}else{
-				image(playbutton,0,0);
+			} else {
+				image(playbutton, 0, 0);
 			}
 		}
 
@@ -107,6 +108,9 @@ public class Game extends PApplet {
 			for (int i = 0; i < ene.size() - 1; i++) {
 				ene.get(i).drawEnemy();
 				ene.get(i).update();
+				if (ene.get(i).y >= 0) {
+					shh = true;
+				}
 				if (ene.get(i).y >= 600 - 25) {
 					playerHitPoints = playerHitPoints - 5;
 					ene.get(i).enemyRandomSpawn();
@@ -115,15 +119,6 @@ public class Game extends PApplet {
 			// Bugfix mit dem Gegner
 			if (ene.size() == 1) {
 				ene.clear();
-			}
-
-			// GegnerProjectile zeichnen und Schießen
-			for (int i = 0; i < schussGegner.size(); i++) {
-				schussGegner.get(i).drawProjectileEnemy();
-				schussGegner.get(i).shootEnemy();
-				if (schussGegner.get(i).y >= 600 - 5) {
-					schussGegner.remove(i);
-				}
 			}
 
 			// Projectile für den Player erstellen & zeichnen & Schießen &&
@@ -136,6 +131,18 @@ public class Game extends PApplet {
 				}
 			}
 
+			// GegnerProjectile zeichnen und Schießen
+			if (shh) {
+				for (int i = 0; i < schussGegner.size(); i++) {
+					schussGegner.get(i).drawProjectileEnemy();
+					schussGegner.get(i).shootEnemy();
+					if (schussGegner.get(i).y >= 600 - 5) {
+						schussGegner.remove(i);
+						shh = false;
+					}
+				}
+			}
+
 			if (playerHitPoints <= 0) {
 				playerHitPoints = 0;
 				ene.clear();
@@ -144,22 +151,21 @@ public class Game extends PApplet {
 				image(lost, width / 2, height / 2);
 			}
 
-			else if (playerHitPoints >= 0 && ene.isEmpty()) {
+			else if (playerHitPoints > 0 && ene.isEmpty()) {
 				fill(255, 0, 0);
 				image(won, 300, 100);
 			}
 		}
 		// Methode zum Schießen , KLAPPT
-		msis();
+		shootMethod();
 		// wenn gegner getroffen wird dann gegner tot
 		ifEnemyHit();
 		// wenn Player getroffen wird
 		ifPlayerHit();
-		//System.out.println(ene.size());
 	}
 
 	// Methode zum Schießen , KLAPPT !
-	public void msis() {
+	public void shootMethod() {
 		if (KeyHandler.keySpace) {
 			// this regulates the shooting speed
 			if (canShoot == true) {

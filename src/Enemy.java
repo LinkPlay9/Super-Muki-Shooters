@@ -1,16 +1,14 @@
-import java.util.Random;
-
 import processing.core.PApplet;
 
 public class Enemy extends MainObject {
 	public float velocityX, velocityY;
-	Random rand = new Random();
-	float minY = -900;
+	// Random rand = new Random();
+	float minY = -90;
 	float maxY = -10;
-	float finalY = minY + (maxY - minY) * rand.nextFloat();
-	float minX = 100;
+	float finalY = drawing.random(minY, maxY);
+	float minX = 10;
 	float maxX = 800 - 25;
-	float finalX = minX + (maxX - minX) * rand.nextFloat();
+	float finalX = drawing.random(minX, maxX);
 
 	public Enemy(PApplet d) {
 		super(d);
@@ -18,13 +16,13 @@ public class Enemy extends MainObject {
 		this.y = finalY;
 		this.a = 25;
 		this.b = 25;
-		velocityY = 50;
+		velocityY = 80;
 	}
 
 	public void drawEnemy() {
 
 		drawing.fill(255, 0, 0);
-		drawing.rect(x, y, a, b);
+		drawing.rect(this.x, this.y, this.a, this.b);
 
 	}
 
@@ -34,8 +32,8 @@ public class Enemy extends MainObject {
 
 	public void enemyRandomSpawn() {
 		velocityY += 50;
-		this.y = minY + (maxY - minY) * rand.nextFloat();
-		this.x = minX + (maxX - minX) * rand.nextFloat();
+		this.y = drawing.random(minY, maxY);
+		this.x = drawing.random(minX, maxX);
 	}
 
 }

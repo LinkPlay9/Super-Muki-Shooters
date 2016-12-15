@@ -8,7 +8,7 @@ public class ProjectileEnemy extends MainObject {
 	public ProjectileEnemy(PApplet d, ArrayList<Enemy> enemy, int i) {
 		super(d);
 		this.x = enemy.get(i).x + 12.5f;
-		this.y = enemy.get(i).y;
+		this.y = enemy.get(i).y + 12.5f;
 
 	}
 
@@ -18,7 +18,7 @@ public class ProjectileEnemy extends MainObject {
 	}
 
 	public void shootEnemy() {
-		this.y += 70 * Clock.elapsedTime;
+		this.y += 120 * Clock.elapsedTime;
 	}
 
 }
