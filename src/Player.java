@@ -17,8 +17,8 @@ public class Player extends MainObject {
 	}
 
 	public void drawPlayer() {
-
-		drawing.fill(0, 255, 0);
+		drawing.noStroke();
+		drawing.fill(0, 255, 12);
 		drawing.rect(x, y, a, b);
 
 	}

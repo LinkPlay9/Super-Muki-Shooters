@@ -8,11 +8,12 @@ public class ProjectileEnemy extends MainObject {
 	public ProjectileEnemy(PApplet d, ArrayList<Enemy> enemy, int i) {
 		super(d);
 		this.x = enemy.get(i).x + 12.5f;
-		this.y = enemy.get(i).y + 12.5f;
+		this.y = enemy.get(i).y + 17.5f;
 
 	}
 
 	public void drawProjectileEnemy() {
+		drawing.noStroke();
 		drawing.fill(255, 0, 0);
 		drawing.ellipse(this.x, this.y, 10, 10);
 	}

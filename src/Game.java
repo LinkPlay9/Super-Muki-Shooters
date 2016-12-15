@@ -19,6 +19,7 @@ public class Game extends PApplet {
 	Clock tick = new Clock();
 	int startX, startY, startSize;
 	boolean shh = false;
+	Background[] p = new Background[250];
 
 	public static void main(String[] args) {
 		PApplet.main("Game");
@@ -28,14 +29,6 @@ public class Game extends PApplet {
 		frameRate(1000);
 		// Gegner erzeugen
 		tick.update();
-		// Gegner erstellen
-		for (int i = 0; i < 8; i++) {
-			ene.add(new Enemy(this));
-		}
-		// Projektile für die Gegner erstellen
-		for (int i = 0; i < ene.size() - 1; i++) {
-			schussGegner.add(new ProjectileEnemy(this, ene, i));
-		}
 	}
 
 	public void settings() {
@@ -60,7 +53,6 @@ public class Game extends PApplet {
 			image(startscreen, 0, 0);
 			fill(3, 169, 244);
 			textSize(20);
-			// text("SUPER-MUKI-SHOOTER", 290, 120);
 			stroke(255);
 			fill(255, 0, 0);
 			int rectX = 275;
@@ -82,7 +74,7 @@ public class Game extends PApplet {
 			if (setup) {
 
 				// Gegner erstellen
-				for (int i = 0; i < 7; i++) {
+				for (int i = 0; i < 10; i++) {
 					ene.add(new Enemy(this));
 				}
 				// Projektile für die Gegner erstellen
@@ -90,11 +82,19 @@ public class Game extends PApplet {
 					schussGegner.add(new ProjectileEnemy(this, ene, i));
 				}
 
+				for (int i = 0; i < p.length; i++) {
+					p[i] = new Background(this);
+				}
+
 				// setup ausschalten
 				setup = false;
 			}
 			noStroke();
 			background(bg);
+			for (int i = 0; i < p.length; i++) {
+				p[i].fall();
+				p[i].show();
+			}
 			tick.update();
 
 			// FPS-ANzeige
@@ -157,7 +157,7 @@ public class Game extends PApplet {
 					}
 				}
 			}
-
+			// Wenn Spieler verliert
 			if (playerHitPoints <= 0) {
 				playerHitPoints = 0;
 				ene.clear();
@@ -165,7 +165,7 @@ public class Game extends PApplet {
 				text("U LOST!", width / 2, height / 2);
 				image(lost, width / 2, height / 2);
 			}
-
+			// Wenn Spieler gewinnt
 			else if (playerHitPoints > 0 && ene.isEmpty()) {
 				fill(255, 0, 0);
 				image(won, 300, 100);
@@ -194,7 +194,7 @@ public class Game extends PApplet {
 		if (canShoot == false) {
 			canShootCounter++;
 			// if the right amount of time has passed. make canShoot true
-			if (canShootCounter == 20)/*
+			if (canShootCounter == 30)/*
 										 * change this number to change the
 										 * duration
 										 */ {

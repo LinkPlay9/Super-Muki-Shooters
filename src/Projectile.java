@@ -1,8 +1,6 @@
 import processing.core.PApplet;
 
 public class Projectile extends MainObject {
-	public float xEnemy, yEnemy;
-
 	public Projectile(PApplet d, Player player) {
 		super(d);
 		this.x = player.x + 25;
@@ -12,7 +10,7 @@ public class Projectile extends MainObject {
 
 	public void draw() {
 
-		drawing.fill(244, 143, 177);
+		drawing.fill(0, 255, 0);
 		drawing.ellipse(this.x, this.y, 10, 10);
 
 	}

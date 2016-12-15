@@ -9,7 +9,7 @@ public class Enemy extends MainObject {
 	float minX = 10;
 	float maxX = 800 - 25;
 	float finalX = drawing.random(minX, maxX);
-	boolean sichtbar = false;
+	public boolean sichtbar = false;
 
 	public Enemy(PApplet d) {
 		super(d);
@@ -21,7 +21,7 @@ public class Enemy extends MainObject {
 	}
 
 	public void drawEnemy() {
-
+		drawing.noStroke();
 		drawing.fill(255, 0, 0);
 		drawing.rect(this.x, this.y, this.a, this.b);
 
