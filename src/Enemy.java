@@ -8,12 +8,8 @@ public class Enemy extends MainObject {
 	float finalY = drawing.random(minY, maxY);
 	float minX = 10;
 	float maxX = 800 - 25;
-<<<<<<< HEAD
 	float finalX = drawing.random(minX, maxX);
-=======
-	float finalX = minX + (maxX - minX) * rand.nextFloat();
 	boolean sichtbar = false;
->>>>>>> origin/master
 
 	public Enemy(PApplet d) {
 		super(d);

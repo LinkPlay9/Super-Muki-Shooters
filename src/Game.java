@@ -28,7 +28,6 @@ public class Game extends PApplet {
 		frameRate(1000);
 		// Gegner erzeugen
 		tick.update();
-<<<<<<< HEAD
 		// Gegner erstellen
 		for (int i = 0; i < 8; i++) {
 			ene.add(new Enemy(this));
@@ -37,8 +36,6 @@ public class Game extends PApplet {
 		for (int i = 0; i < ene.size() - 1; i++) {
 			schussGegner.add(new ProjectileEnemy(this, ene, i));
 		}
-=======
->>>>>>> origin/master
 	}
 
 	public void settings() {
@@ -82,7 +79,7 @@ public class Game extends PApplet {
 
 		// Level 1
 		if (gamestate == 1) {
-			if(setup){
+			if (setup) {
 
 				// Gegner erstellen
 				for (int i = 0; i < 7; i++) {
@@ -91,9 +88,9 @@ public class Game extends PApplet {
 				// Projektile für die Gegner erstellen
 				for (int i = 0; i < ene.size() - 1; i++) {
 					schussGegner.add(new ProjectileEnemy(this, ene, i));
-				}	
-				
-				//setup ausschalten
+				}
+
+				// setup ausschalten
 				setup = false;
 			}
 			noStroke();
