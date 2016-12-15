@@ -91,6 +91,7 @@ public class Game extends PApplet {
 			}
 			noStroke();
 			background(bg);
+			fill(255,255,255);
 			for (int i = 0; i < p.length; i++) {
 				p[i].fall();
 				p[i].show();

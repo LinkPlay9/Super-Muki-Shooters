@@ -8,7 +8,7 @@ public class Player extends MainObject {
 
 		super(d);
 		this.x = 800 / 2;
-		this.y = 600 - 50;
+		this.y = 600 - 100;
 		this.a = 50.0f;
 		this.b = 50.0f;
 		posY = this.y;
