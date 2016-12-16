@@ -6,7 +6,7 @@ import processing.core.PImage;
 public class Game extends PApplet {
 	// Bilder,Spieler,Gegner,Projektile Deklarieren
 	PImage bg, lost, won, startscreen, playbutton, playbuttonhvr;
-	Player Player1 = new Player(this);
+	PImage player;
 	ArrayList<Enemy> ene = new ArrayList<Enemy>();
 	ArrayList<Projectile> schussPlayer = new ArrayList<Projectile>();
 	ArrayList<ProjectileEnemy> schussGegner = new ArrayList<ProjectileEnemy>();
@@ -41,8 +41,11 @@ public class Game extends PApplet {
 		startscreen = loadImage("data/start.png");
 		playbutton = loadImage("data/Button/play.png");
 		playbuttonhvr = loadImage("data/Button/playhovr.png");
+		player = loadImage("data/player.png");
 		loop();
 	}
+
+	Player Player1 = new Player(this, player);
 
 	public void draw() {
 		// Menu
@@ -91,9 +94,9 @@ public class Game extends PApplet {
 			}
 			noStroke();
 			background(bg);
-			//Sterne Farbe
-			fill(122,122,122);
-			//Background Animation Methode
+			// Sterne Farbe
+			fill(122, 122, 122);
+			// Background Animation Methode
 			for (int i = 0; i < p.length; i++) {
 				p[i].fall();
 				p[i].show();
