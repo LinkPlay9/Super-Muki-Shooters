@@ -4,7 +4,7 @@ public class Background extends PApplet {
 	public PApplet drawing;
 	float x = random(800);
 	float y = random(0, 600);
-	//float z = random(0, 20);
+	// float z = random(0, 20);
 	float size = random(1, 3);
 	float size2 = random(1, 3);
 	float yspeed = 20 * Clock.elapsedTime;
@@ -22,6 +22,7 @@ public class Background extends PApplet {
 	}
 
 	public void show() {
+		drawing.fill(122, 122, 122);
 		drawing.ellipse(x, y, size, size2);
 	}
 

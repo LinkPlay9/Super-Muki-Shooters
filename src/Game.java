@@ -94,8 +94,6 @@ public class Game extends PApplet {
 			}
 			noStroke();
 			background(bg);
-			// Sterne Farbe
-			fill(122, 122, 122);
 			// Background Animation Methode
 			for (int i = 0; i < p.length; i++) {
 				p[i].fall();
@@ -200,7 +198,7 @@ public class Game extends PApplet {
 		if (canShoot == false) {
 			canShootCounter++;
 			// if the right amount of time has passed. make canShoot true
-			if (canShootCounter == 30)/*
+			if (canShootCounter == 20)/*
 										 * change this number to change the
 										 * duration
 										 */ {

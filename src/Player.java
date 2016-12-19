@@ -19,7 +19,7 @@ public class Player extends MainObject {
 	}
 
 	public void drawPlayer() {
-		player = drawing.loadImage("data/player.png");
+		player = drawing.loadImage("data/phillip.png");
 		player.resize(50, 0);
 		drawing.noStroke();
 		// drawing.fill(0, 255, 12);
