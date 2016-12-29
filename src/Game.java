@@ -107,12 +107,12 @@ public class Game extends PApplet {
 			text("FPS: " + (int) frameRate, 0, 20);
 
 			// Points anzeige
-			fill(220, 153, 255);
+			fill(255, 255, 255);
 			textSize(20);
 			text("Points: " + points, 690, 40);
 
 			// HP-Anzeige
-			fill(220, 153, 255);
+			fill(255, 255, 255);
 			textSize(20);
 			text("HP: " + (int) playerHitPoints, 720, 20);
 
