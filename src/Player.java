@@ -18,8 +18,15 @@ public class Player extends MainObject {
 		this.player = player;
 	}
 
-	public void drawPlayer() {
-		player = drawing.loadImage("data/Player/fetafighter.png");
+	public void drawPlayer(int charactersel) {
+		switch (charactersel){
+			case 1:			player = drawing.loadImage("data/Player/fetafighter.png"); break;	// 1 für Pana
+			case 2:			player = drawing.loadImage("data/Player/maccaroni.png"); break;		// 2 für Mathaan
+			case 3:			player = drawing.loadImage("data/Player/blinkerboi.png"); break;	// 3 für Toni
+			case 4:			player = drawing.loadImage("data/Player/phillip.png"); break;	// 4 für Zelle
+			default: 		player = drawing.loadImage("data/Player/default.png"); break;
+
+		}
 		player.resize(50, 0);
 		drawing.noStroke();
 		// drawing.fill(0, 255, 12);

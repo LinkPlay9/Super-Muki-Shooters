@@ -5,21 +5,25 @@ import processing.core.PImage;
 
 public class Game extends PApplet {
 	// Bilder,Spieler,Gegner,Projektile Deklarieren
-	PImage bg, lost, won, startscreen, playbutton, playbuttonhvr;
-	PImage player;
+	PImage bg; //Hintergrundbild (Sterne)
+	PImage lost, won; //lose & win Bilder
+	PImage startscreen, playerselect; //Menüs
+	PImage playbutton, playbuttonhvr; //Buttons
+	PImage player; //Spieler
 	ArrayList<Enemy> ene = new ArrayList<Enemy>();
 	ArrayList<Projectile> schussPlayer = new ArrayList<Projectile>();
 	ArrayList<ProjectileEnemy> schussGegner = new ArrayList<ProjectileEnemy>();
-	private static int playerHitPoints = 100;
+	private static int playerHitPoints = 100; //Leben
 	public int points = 0;
 	boolean canShoot = true;
 	boolean setup = true;
 	int canShootCounter;
 	public int gamestate = 0;
-	Clock tick = new Clock();
+	Clock tick = new Clock(); //Clock für FPS-Unabhängige Animation (vielen Dank Fabian Fritzsche)
 	int startX, startY, startSize;
 	boolean shh = false;
 	Background[] p = new Background[250];
+	public int charactersel;//Spieler Character, bestimmt welches Bild für den Spieler geladen wird
 
 	public static void main(String[] args) {
 		PApplet.main("Game");
@@ -32,13 +36,14 @@ public class Game extends PApplet {
 	}
 
 	public void settings() {
-		// CustomBackground mit der Auflösung 800x600sized d ad ad
+		// CustomBackground mit der Auflösung 800x600size
 		size(800, 600, P2D);
 		bg = loadImage("data/Backgrounds/Level1.jpg");
 		bg.resize(width, height);
 		lost = loadImage("data/Backgrounds/gameover.png");
 		won = loadImage("data/Backgrounds/won.png");
 		startscreen = loadImage("data/start.png");
+		playerselect = loadImage("data/playerselect.png");
 		playbutton = loadImage("data/Button/play.png");
 		playbuttonhvr = loadImage("data/Button/playhovr.png");
 		//player = loadImage("data/player.png");
@@ -46,7 +51,7 @@ public class Game extends PApplet {
 	}
 
 	Player Player1 = new Player(this, player);
-
+	
 	public void draw() {
 		// Menu
 		if (gamestate == 0) {
@@ -65,15 +70,57 @@ public class Game extends PApplet {
 				fill(0, 255, 0);
 				image(playbuttonhvr, 0, 0);
 				if (mousePressed) {
-					gamestate = 1;
+					gamestate = 11;
 				}
 			} else {
 				image(playbutton, 0, 0);
 			}
 		}
+		
+		//Character Menü
+		if (gamestate == 11){
+			noStroke();
+			tick.update();
+			image(playerselect, 0, 0);
+			
+			//Mathaan Button
+			if (mouseX >= 301 && mouseX <= 379 && mouseY >= 164 && mouseY <= 280){
+				if (mousePressed){
+					charactersel = 2; //Setze Mathaan als Spieler
+					gamestate = 1; //Wähle Level 1
+				}
+			}
+			
+			//Zelle Button
+			if (mouseX >= 414 && mouseX <= 493 && mouseY >= 164 && mouseY <= 278){
+				if (mousePressed){
+					charactersel = 4; //Setze Mathaan als Spieler
+					gamestate = 1; //Wähle Level 1
+				}
+			}
+			
+			//Panna Button
+			if (mouseX >= 297 && mouseX <= 379 && mouseY >= 320 && mouseY <= 431){
+				if (mousePressed){
+					charactersel = 1; //Setze Mathaan als Spieler
+					gamestate = 1; //Wähle Level 1
+				}
+			}
+			
+			//Toni Button
+			if (mouseX >= 420 && mouseX <= 500 && mouseY >= 320 && mouseY <= 433){
+				if (mousePressed){
+					charactersel = 3; //Setze Mathaan als Spieler
+					gamestate = 1; //Wähle Level 1
+				}
+			}
+					
+		}
 
 		// Level 1
 		if (gamestate == 1) {
+	
+			
 			if (setup) {
 
 				// Gegner erstellen
@@ -117,7 +164,7 @@ public class Game extends PApplet {
 			text("HP: " + (int) playerHitPoints, 720, 20);
 
 			// Spieler erzeugen
-			Player1.drawPlayer();
+			Player1.drawPlayer(charactersel);
 
 			// Keyevents Spieler
 			Player1.movePlayer();
