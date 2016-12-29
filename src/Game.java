@@ -36,12 +36,12 @@ public class Game extends PApplet {
 		size(800, 600, P2D);
 		bg = loadImage("data/Backgrounds/Level1.jpg");
 		bg.resize(width, height);
-		lost = loadImage("data/Backgrounds/nigga.jpg");
-		won = loadImage("data/Backgrounds/won.jpg");
+		lost = loadImage("data/Backgrounds/gameover.png");
+		won = loadImage("data/Backgrounds/won.png");
 		startscreen = loadImage("data/start.png");
 		playbutton = loadImage("data/Button/play.png");
 		playbuttonhvr = loadImage("data/Button/playhovr.png");
-		player = loadImage("data/player.png");
+		//player = loadImage("data/player.png");
 		loop();
 	}
 
@@ -166,13 +166,13 @@ public class Game extends PApplet {
 				playerHitPoints = 0;
 				ene.clear();
 				fill(255, 0, 0);
-				text("U LOST!", width / 2, height / 2);
-				image(lost, width / 2, height / 2);
+				//text("U LOST!", width / 2, height / 2);
+				image(lost,0,0);
 			}
 			// Wenn Spieler gewinnt
 			else if (playerHitPoints > 0 && ene.isEmpty()) {
 				fill(255, 0, 0);
-				image(won, 300, 100);
+				image(won, 0, 0);
 			}
 		}
 		// Methode zum Schießen , KLAPPT
