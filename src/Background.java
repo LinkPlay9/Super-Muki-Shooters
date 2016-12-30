@@ -7,15 +7,14 @@ public class Background extends PApplet {
 	// float z = random(0, 20);
 	float size = random(1, 3);
 	float size2 = random(1, 3);
-	float yspeed = 20 * Clock.elapsedTime;
+	float yspeed = 20 ;
 
 	public Background(PApplet d) {
 		drawing = d;
-
 	}
 
 	public void fall() {
-		y += yspeed;
+		y = y + yspeed * Clock.elapsedTime;
 		if (y > 600) {
 			y = random(-600, 0);
 		}

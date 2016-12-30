@@ -6,7 +6,7 @@ public class Player extends MainObject {
 	float posX, posY;
 	PImage player;
 
-	public Player(PApplet d, PImage player) {
+	public Player(PApplet d) {
 
 		super(d);
 		this.x = 800 / 2;
@@ -15,7 +15,7 @@ public class Player extends MainObject {
 		this.b = 50.0f;
 		posY = this.y;
 		posX = this.x;
-		this.player = player;
+		//this.player = player;
 	}
 
 	public void drawPlayer(int charactersel) {
@@ -27,8 +27,8 @@ public class Player extends MainObject {
 			default: 		player = drawing.loadImage("data/Player/default.png"); break;
 
 		}
-		player.resize(50, 0);
-		drawing.noStroke();
+		//player.resize(50, 0);
+		//drawing.noStroke();
 		// drawing.fill(0, 255, 12);
 		// drawing.rect(x, y, a, b);
 		drawing.image(player, x, y);

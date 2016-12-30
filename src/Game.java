@@ -9,7 +9,7 @@ public class Game extends PApplet {
 	PImage lost, won; //lose & win Bilder
 	PImage startscreen, playerselect; //Menüs
 	PImage playbutton, playbuttonhvr; //Buttons
-	PImage player; //Spieler
+	PImage player, enmey; //Spieler
 	ArrayList<Enemy> ene = new ArrayList<Enemy>();
 	ArrayList<Projectile> schussPlayer = new ArrayList<Projectile>();
 	ArrayList<ProjectileEnemy> schussGegner = new ArrayList<ProjectileEnemy>();
@@ -33,6 +33,9 @@ public class Game extends PApplet {
 		frameRate(1000);
 		// Gegner erzeugen
 		tick.update();
+		for (int i = 0; i < p.length; i++) {
+			p[i] = new Background(this);
+		}
 	}
 
 	public void settings() {
@@ -50,9 +53,21 @@ public class Game extends PApplet {
 		loop();
 	}
 
-	Player Player1 = new Player(this, player);
+	Player Player1 = new Player(this);
 	
 	public void draw() {
+		
+		noStroke();
+		background(bg);
+		
+		// Background Animation Methode
+		for (int i = 0; i < p.length; i++) {
+			p[i].fall();
+			p[i].show();
+		}
+		tick.update();
+
+		
 		// Menu
 		if (gamestate == 0) {
 			noStroke();
@@ -132,21 +147,11 @@ public class Game extends PApplet {
 					schussGegner.add(new ProjectileEnemy(this, ene, i));
 				}
 
-				for (int i = 0; i < p.length; i++) {
-					p[i] = new Background(this);
-				}
+
 
 				// setup ausschalten
 				setup = false;
 			}
-			noStroke();
-			background(bg);
-			// Background Animation Methode
-			for (int i = 0; i < p.length; i++) {
-				p[i].fall();
-				p[i].show();
-			}
-			tick.update();
 
 			// FPS-ANzeige
 			fill(220, 153, 255);

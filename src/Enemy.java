@@ -1,4 +1,5 @@
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class Enemy extends MainObject {
 	public float velocityX, velocityY;
@@ -10,7 +11,8 @@ public class Enemy extends MainObject {
 	float maxX = 800 - 25;
 	float finalX = drawing.random(minX, maxX);
 	public boolean sichtbar = false;
-
+	PImage enemy = drawing.loadImage("data/Player/enemy.png");
+	
 	public Enemy(PApplet d) {
 		super(d);
 		this.x = finalX;
@@ -21,10 +23,10 @@ public class Enemy extends MainObject {
 	}
 
 	public void drawEnemy() {
-		drawing.noStroke();
-		drawing.fill(255, 0, 0);
-		drawing.rect(this.x, this.y, this.a, this.b);
-
+//		drawing.noStroke();
+//		drawing.fill(255, 0, 0);
+//		drawing.rect(this.x, this.y, this.a, this.b);
+		drawing.image(enemy, x, y);
 	}
 
 	public void update() {
