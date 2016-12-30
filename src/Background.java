@@ -7,7 +7,7 @@ public class Background extends PApplet {
 	// float z = random(0, 20);
 	float size = random(1, 3);
 	float size2 = random(1, 3);
-	float yspeed = 20 ;
+	float yspeed = random(15, 25);
 
 	public Background(PApplet d) {
 		drawing = d;

@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 import processing.core.PApplet;
+import processing.core.PFont;
 import processing.core.PImage;
 
 public class Game extends PApplet {
@@ -23,6 +24,7 @@ public class Game extends PApplet {
 	Clock tick = new Clock(); //Clock für FPS-Unabhängige Animation (vielen Dank Fabian Fritzsche)
 	int startX, startY, startSize;
 	boolean shh = false;
+	PFont lot,roboto;
 	Background[] p = new Background[250];
 	public int charactersel;//Spieler Character, bestimmt welches Bild für den Spieler geladen wird
 
@@ -37,7 +39,8 @@ public class Game extends PApplet {
 		for (int i = 0; i < p.length; i++) {
 			p[i] = new Background(this);
 		}
-		
+		lot = createFont("data/LOT.otf",32);
+		roboto = createFont("data/Roboto-Regular.ttf",32);
 	}
 
 	public void settings() {
@@ -63,6 +66,7 @@ public class Game extends PApplet {
 			background(bg);	
 		}
 		tick.update();
+		textFont(lot);
 		
 		// Background Animation Methode
 		for (int i = 0; i < p.length; i++) {
@@ -86,10 +90,9 @@ public class Game extends PApplet {
 		if (gamestate == 0) {
 			noStroke();
 			tick.update();
-			surface.setTitle("SUPER-MUKI-SHOOTER");
+			surface.setTitle("Super Muki Shooter");
 			image(startscreen, 0, 0);
 			fill(3, 169, 244);
-			textSize(20);
 			stroke(255);
 			fill(255, 0, 0);
 			int rectX = 275;
@@ -110,6 +113,7 @@ public class Game extends PApplet {
 		if (gamestate == 11){
 			noStroke();
 			tick.update();
+			surface.setTitle("SMS - Select your Player");
 			image(playerselect, 0, 0);
 			
 			//Mathaan Button
@@ -160,21 +164,21 @@ public class Game extends PApplet {
 				// setup ausschalten
 				setup = false;
 			}
-
+			surface.setTitle("SMS - Level 1");
 			// FPS-ANzeige
-			fill(220, 153, 255);
+			fill(255,0,0);
+			textFont(roboto);
 			textSize(20);
-			text("FPS: " + (int) frameRate, 0, 20);
-
-			// Points anzeige
-			fill(255, 255, 255);
+			textAlign(LEFT);
+			text("FPS: " + (int) frameRate, 5, 20);
+			
+			//Statusanzeige
+			textAlign(RIGHT);
+			textFont(lot);
 			textSize(20);
-			text("Points: " + points, 690, 40);
-
-			// HP-Anzeige
-			fill(255, 255, 255);
-			textSize(20);
-			text("HP: " + (int) playerHitPoints, 720, 20);
+			fill(255);
+			text("Points: " + points, this.width-5, 40); //Punkte
+			text("HitPoints: " + (int) playerHitPoints, this.width-5, 20);	//HP
 
 			// Spieler erzeugen
 			Player1.drawPlayer(charactersel);
