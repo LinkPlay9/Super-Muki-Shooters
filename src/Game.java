@@ -19,6 +19,7 @@ public class Game extends PApplet {
 	boolean setup = true;
 	int canShootCounter;
 	public int gamestate = 0;
+	boolean drogenmode = false;
 	Clock tick = new Clock(); //Clock für FPS-Unabhängige Animation (vielen Dank Fabian Fritzsche)
 	int startX, startY, startSize;
 	boolean shh = false;
@@ -31,18 +32,18 @@ public class Game extends PApplet {
 
 	public void setup() {
 		frameRate(1000);
-		// Gegner erzeugen
 		tick.update();
+		//Background erzeugen
 		for (int i = 0; i < p.length; i++) {
 			p[i] = new Background(this);
 		}
+		
 	}
 
 	public void settings() {
 		// CustomBackground mit der Auflösung 800x600size
 		size(800, 600, P2D);
-		bg = loadImage("data/Backgrounds/Level1.jpg");
-		bg.resize(width, height);
+		bg = loadImage("data/Backgrounds/Level1.jpg");	
 		lost = loadImage("data/Backgrounds/gameover.png");
 		won = loadImage("data/Backgrounds/won.png");
 		startscreen = loadImage("data/start.png");
@@ -56,17 +57,30 @@ public class Game extends PApplet {
 	Player Player1 = new Player(this);
 	
 	public void draw() {
-		
 		noStroke();
-		background(bg);
+		//drogenmode = true; //Drogenmode disabelt den Background so das alles eine Linie hinter sich her zieht
+		if(!drogenmode){
+			background(bg);	
+		}
+		tick.update();
 		
 		// Background Animation Methode
 		for (int i = 0; i < p.length; i++) {
 			p[i].fall();
 			p[i].show();
 		}
-		tick.update();
-
+		
+		/*	Gamestate Erklärung:
+		 *	Gamestate steuert in welchem Menü / Level sich das Spiel befindet
+		 *	
+		 *	0 = Startscreen: Titel, Play Button, Credits
+		 *
+		 *	Menüs beginnen mit 1*
+		 *	11 = Character Menü
+		 *
+		 *	Levels sind Eintellig und beginnen mit 1
+		 *	1 = Level 1 
+		 */
 		
 		// Menu
 		if (gamestate == 0) {
@@ -133,11 +147,8 @@ public class Game extends PApplet {
 		}
 
 		// Level 1
-		if (gamestate == 1) {
-	
-			
+		if (gamestate == 1) {		
 			if (setup) {
-
 				// Gegner erstellen
 				for (int i = 0; i < 10; i++) {
 					ene.add(new Enemy(this));
@@ -146,9 +157,6 @@ public class Game extends PApplet {
 				for (int i = 0; i < ene.size() - 1; i++) {
 					schussGegner.add(new ProjectileEnemy(this, ene, i));
 				}
-
-
-
 				// setup ausschalten
 				setup = false;
 			}
