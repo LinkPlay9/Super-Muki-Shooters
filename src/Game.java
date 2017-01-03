@@ -27,6 +27,8 @@ public class Game extends PApplet {
 	PFont lot,roboto;
 	Background[] p = new Background[250];
 	public int charactersel;//Spieler Character, bestimmt welches Bild für den Spieler geladen wird
+	long curtime = 0;
+	long nexttime = 0;
 
 	public static void main(String[] args) {
 		PApplet.main("Game");
@@ -103,6 +105,7 @@ public class Game extends PApplet {
 				image(playbuttonhvr, 0, 0);
 				if (mousePressed) {
 					gamestate = 11;
+					curtime = System.currentTimeMillis();
 				}
 			} else {
 				image(playbutton, 0, 0);
@@ -115,39 +118,40 @@ public class Game extends PApplet {
 			tick.update();
 			surface.setTitle("SMS - Select your Player");
 			image(playerselect, 0, 0);
-			
-			//Mathaan Button
-			if (mouseX >= 301 && mouseX <= 379 && mouseY >= 164 && mouseY <= 280){
-				if (mousePressed){
-					charactersel = 2; //Setze Mathaan als Spieler
-					gamestate = 1; //Wähle Level 1
+			nexttime = System.currentTimeMillis();
+			if(nexttime >= curtime+300){
+				//Mathaan Button
+				if (mouseX >= 301 && mouseX <= 379 && mouseY >= 164 && mouseY <= 280){
+					if (mousePressed){
+						charactersel = 2; //Setze Mathaan als Spieler
+						gamestate = 1; //Wähle Level 1
+					}
+				}
+				
+				//Zelle Button
+				if (mouseX >= 414 && mouseX <= 493 && mouseY >= 164 && mouseY <= 278){
+					if (mousePressed){
+						charactersel = 4; //Setze Mathaan als Spieler
+						gamestate = 1; //Wähle Level 1
+					}
+				}
+				
+				//Panna Button
+				if (mouseX >= 297 && mouseX <= 379 && mouseY >= 320 && mouseY <= 431){
+					if (mousePressed){
+						charactersel = 1; //Setze Mathaan als Spieler
+						gamestate = 1; //Wähle Level 1
+					}
+				}
+				
+				//Toni Button
+				if (mouseX >= 420 && mouseX <= 500 && mouseY >= 320 && mouseY <= 433){
+					if (mousePressed){
+						charactersel = 3; //Setze Mathaan als Spieler
+						gamestate = 1; //Wähle Level 1
+					}
 				}
 			}
-			
-			//Zelle Button
-			if (mouseX >= 414 && mouseX <= 493 && mouseY >= 164 && mouseY <= 278){
-				if (mousePressed){
-					charactersel = 4; //Setze Mathaan als Spieler
-					gamestate = 1; //Wähle Level 1
-				}
-			}
-			
-			//Panna Button
-			if (mouseX >= 297 && mouseX <= 379 && mouseY >= 320 && mouseY <= 431){
-				if (mousePressed){
-					charactersel = 1; //Setze Mathaan als Spieler
-					gamestate = 1; //Wähle Level 1
-				}
-			}
-			
-			//Toni Button
-			if (mouseX >= 420 && mouseX <= 500 && mouseY >= 320 && mouseY <= 433){
-				if (mousePressed){
-					charactersel = 3; //Setze Mathaan als Spieler
-					gamestate = 1; //Wähle Level 1
-				}
-			}
-					
 		}
 
 		// Level 1
