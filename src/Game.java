@@ -19,7 +19,7 @@ public class Game extends PApplet {
 	boolean canShoot = true;
 	boolean setup = true;
 	int canShootCounter;
-	public int gamestate = 0; //spiel startet im intro
+	public int gamestate = 10; //spiel startet im intro
 	boolean drogenmode = false;
 	Clock tick = new Clock(); //Clock für FPS-Unabhängige Animation (vielen Dank Fabian Fritzsche)
 	int startX, startY, startSize;
@@ -111,6 +111,11 @@ public class Game extends PApplet {
 			
 			timedif = introtime - starttime;
 			
+			if(mousePressed){
+				gamestate = 0;
+				curtime = System.currentTimeMillis();
+			}
+			
 			if(timedif >= 0 && timedif <= 3000){
 				//System.out.println(timedif);
 				image(smeme, 0, 0);
@@ -125,7 +130,7 @@ public class Game extends PApplet {
 		
 		// Menu
 		if (gamestate == 0){
-			sound.controlMusic(sound.music[0], "play");
+			//sound.controlMusic(sound.music[0], "play");
 			noStroke();
 			tick.update();
 			surface.setTitle("Super Muki Shooter");
@@ -136,12 +141,15 @@ public class Game extends PApplet {
 			int rectX = 275;
 			int rectY = 175;
 			int rectSize = 250;
+			nexttime = System.currentTimeMillis();
 			if (mouseX >= rectX && mouseX <= rectX + rectSize && mouseY >= rectY && mouseY <= rectY + rectSize) {
 				fill(0, 255, 0);
 				image(playbuttonhvr, 0, 0);
-				if (mousePressed) {
-					gamestate = 11;
-					curtime = System.currentTimeMillis();
+				if(nexttime >= curtime+300){
+					if (mousePressed) {
+						gamestate = 11;
+						curtime = System.currentTimeMillis();
+					}
 				}
 			} else {
 				image(playbutton, 0, 0);
@@ -154,9 +162,9 @@ public class Game extends PApplet {
 			tick.update();
 			surface.setTitle("Super Muki Shooter - Select your Player");
 			image(playerselect, 0, 0);
-			nexttime = System.currentTimeMillis();
 			int playerh = 230;
 			int bsize = 140;
+			nexttime = System.currentTimeMillis();
 			if(nexttime >= curtime+300){
 				//Peter Button
 				if (mouseX >= 30 && mouseX <= 30+bsize && mouseY >= playerh && mouseY <= playerh+bsize){
@@ -294,6 +302,7 @@ public class Game extends PApplet {
 		if (KeyHandler.keySpace) {
 			// this regulates the shooting speed
 			if (canShoot == true) {
+				sound.playSound(sound.music[1]);
 				schussPlayer.add(new Projectile(this, Player1));
 				canShoot = false;
 				canShootCounter = 0;
@@ -304,7 +313,7 @@ public class Game extends PApplet {
 		if (canShoot == false) {
 			canShootCounter++;
 			// if the right amount of time has passed. make canShoot true
-			if (canShootCounter == 20)/*
+			if (canShootCounter == 50)/*
 										 * change this number to change the
 										 * duration
 										 */ {

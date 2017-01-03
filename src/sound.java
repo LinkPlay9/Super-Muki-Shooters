@@ -5,7 +5,7 @@ public class sound {
 	
 	static PApplet applet;
 	static Minim minim;
-	static AudioPlayer[] music = new AudioPlayer[1];
+	static AudioPlayer[] music = new AudioPlayer[2];
 	
 	static void setupSoundEngine(PApplet p){
 		applet = p;
@@ -31,11 +31,15 @@ public class sound {
 	}
 	
 	static void playSound(AudioPlayer sound){
+		sound.rewind();
 		sound.play();
 	}
 	
 	static void loadSamples(){
-		music[0] = minim.loadFile("data/sound/music/Crescendolls.mp3", 4096);
+		//music[0] = minim.loadFile("data/sound/music/Crescendolls.mp3", 4096);
+		//http://soundbible.com/1771-Laser-Cannon.html
+		music[1] = minim.loadFile("data/sound/Laser Blast.mp3");
+
 	}
 	
 }
