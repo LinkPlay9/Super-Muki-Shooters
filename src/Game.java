@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
@@ -11,6 +10,7 @@ public class Game extends PApplet {
 	PImage startscreen, playerselect; //Menüs
 	PImage playbutton, playbuttonhvr; //Buttons
 	PImage player, enmey; //Spieler
+	PImage smeme, smade, slogo; //bilder für intro
 	ArrayList<Enemy> ene = new ArrayList<Enemy>();
 	ArrayList<Projectile> schussPlayer = new ArrayList<Projectile>();
 	ArrayList<ProjectileEnemy> schussGegner = new ArrayList<ProjectileEnemy>();
@@ -19,7 +19,7 @@ public class Game extends PApplet {
 	boolean canShoot = true;
 	boolean setup = true;
 	int canShootCounter;
-	public int gamestate = 0;
+	public int gamestate = 10; //spiel startet im intro
 	boolean drogenmode = false;
 	Clock tick = new Clock(); //Clock für FPS-Unabhängige Animation (vielen Dank Fabian Fritzsche)
 	int startX, startY, startSize;
@@ -29,7 +29,10 @@ public class Game extends PApplet {
 	public int charactersel;//Spieler Character, bestimmt welches Bild für den Spieler geladen wird
 	long curtime = 0;
 	long nexttime = 0;
-
+	long introtime = 0;
+	long timedif = 0;
+	long starttime = System.currentTimeMillis();
+	
 	public static void main(String[] args) {
 		PApplet.main("Game");
 	}
@@ -56,11 +59,16 @@ public class Game extends PApplet {
 		playbutton = loadImage("data/Button/play.png");
 		playbuttonhvr = loadImage("data/Button/playhovr.png");
 		//player = loadImage("data/player.png");
+		
+		smeme = loadImage("data/splash/memebois.png");
+		smade = loadImage("data/splash/made with.png");
+		slogo = loadImage("data/splash/logo.png");
+		
 		loop();
 	}
 
 	Player Player1 = new Player(this);
-	
+	boolean isetup = true;
 	public void draw() {
 		noStroke();
 		//drogenmode = true; //Drogenmode disabelt den Background so das alles eine Linie hinter sich her zieht
@@ -79,6 +87,8 @@ public class Game extends PApplet {
 		/*	Gamestate Erklärung:
 		 *	Gamestate steuert in welchem Menü / Level sich das Spiel befindet
 		 *	
+		 *	10 = Intro
+		 *
 		 *	0 = Startscreen: Titel, Play Button, Credits
 		 *
 		 *	Menüs beginnen mit 1*
@@ -88,8 +98,32 @@ public class Game extends PApplet {
 		 *	1 = Level 1 
 		 */
 		
+		if(isetup){
+			starttime = System.currentTimeMillis();
+			isetup = false;
+		}
+		
+		//Intro
+		if (gamestate == 10){
+			surface.setTitle("Super Muki Shooter");
+			introtime = System.currentTimeMillis();
+			
+			timedif = introtime - starttime;
+			
+			if(timedif >= 0 && timedif <= 3000){
+				//System.out.println(timedif);
+				image(smeme, 0, 0);
+			}else if(timedif >= 3000 && timedif <= 6000){
+				image(smade, 0, 0);
+			}else if(timedif >= 6000 && timedif <= 9000){
+				image(slogo, 0, 0);
+			}else{
+				gamestate = 0;
+			}
+		}
+		
 		// Menu
-		if (gamestate == 0) {
+		if (gamestate == 0){
 			noStroke();
 			tick.update();
 			surface.setTitle("Super Muki Shooter");
@@ -116,38 +150,40 @@ public class Game extends PApplet {
 		if (gamestate == 11){
 			noStroke();
 			tick.update();
-			surface.setTitle("SMS - Select your Player");
+			surface.setTitle("Super Muki Shooter - Select your Player");
 			image(playerselect, 0, 0);
 			nexttime = System.currentTimeMillis();
+			int playerh = 230;
+			int bsize = 140;
 			if(nexttime >= curtime+300){
+				//Peter Button
+				if (mouseX >= 30 && mouseX <= 30+bsize && mouseY >= playerh && mouseY <= playerh+bsize){
+					if (mousePressed){
+						charactersel = 1; //Setze Peter als Spieler
+						gamestate = 1; //Wähle Level 1
+					}
+				}
+				
 				//Mathaan Button
-				if (mouseX >= 301 && mouseX <= 379 && mouseY >= 164 && mouseY <= 280){
+				if (mouseX >= 230 && mouseX <= 230+bsize && mouseY >= playerh && mouseY <= playerh+bsize){
 					if (mousePressed){
 						charactersel = 2; //Setze Mathaan als Spieler
 						gamestate = 1; //Wähle Level 1
 					}
 				}
 				
-				//Zelle Button
-				if (mouseX >= 414 && mouseX <= 493 && mouseY >= 164 && mouseY <= 278){
-					if (mousePressed){
-						charactersel = 4; //Setze Mathaan als Spieler
-						gamestate = 1; //Wähle Level 1
-					}
-				}
-				
-				//Panna Button
-				if (mouseX >= 297 && mouseX <= 379 && mouseY >= 320 && mouseY <= 431){
-					if (mousePressed){
-						charactersel = 1; //Setze Mathaan als Spieler
-						gamestate = 1; //Wähle Level 1
-					}
-				}
-				
 				//Toni Button
-				if (mouseX >= 420 && mouseX <= 500 && mouseY >= 320 && mouseY <= 433){
+				if (mouseX >= 430 && mouseX <= 430+bsize && mouseY >= playerh && mouseY <= playerh+bsize){
 					if (mousePressed){
-						charactersel = 3; //Setze Mathaan als Spieler
+						charactersel = 3; //Setze Toni als Spieler
+						gamestate = 1; //Wähle Level 1
+					}
+				}
+				
+				//Zelle Button
+				if (mouseX >= 630 && mouseX <= 630+bsize && mouseY >= playerh && mouseY <= playerh+bsize){
+					if (mousePressed){
+						charactersel = 4; //Setze Zelle als Spieler
 						gamestate = 1; //Wähle Level 1
 					}
 				}
@@ -168,7 +204,7 @@ public class Game extends PApplet {
 				// setup ausschalten
 				setup = false;
 			}
-			surface.setTitle("SMS - Level 1");
+			surface.setTitle("Super Muki Shooter - Level 1");
 			// FPS-ANzeige
 			fill(255,0,0);
 			textFont(roboto);
