@@ -19,7 +19,7 @@ public class Game extends PApplet {
 	boolean canShoot = true;
 	boolean setup = true;
 	int canShootCounter;
-	public int gamestate = 10; //spiel startet im intro
+	public int gamestate = 0; //spiel startet im intro
 	boolean drogenmode = false;
 	Clock tick = new Clock(); //Clock für FPS-Unabhängige Animation (vielen Dank Fabian Fritzsche)
 	int startX, startY, startSize;
@@ -46,6 +46,7 @@ public class Game extends PApplet {
 		}
 		lot = createFont("data/LOT.otf",32);
 		roboto = createFont("data/Roboto-Regular.ttf",32);
+		sound.setupSoundEngine(this);
 	}
 
 	public void settings() {
@@ -124,6 +125,7 @@ public class Game extends PApplet {
 		
 		// Menu
 		if (gamestate == 0){
+			sound.controlMusic(sound.music[0], "play");
 			noStroke();
 			tick.update();
 			surface.setTitle("Super Muki Shooter");
