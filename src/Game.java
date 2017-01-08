@@ -46,12 +46,6 @@ public class Game extends PApplet {
 		}
 		lot = createFont("data/LOT.otf",32);
 		roboto = createFont("data/Roboto-Regular.ttf",32);
-		sound.setupSoundEngine(this);
-	}
-
-	public void settings() {
-		// CustomBackground mit der Auflösung 800x600size
-		size(800, 600, P2D);
 		bg = loadImage("data/Backgrounds/Level1.jpg");	
 		lost = loadImage("data/Backgrounds/gameover.png");
 		won = loadImage("data/Backgrounds/won.png");
@@ -59,13 +53,15 @@ public class Game extends PApplet {
 		playerselect = loadImage("data/playerselect.png");
 		playbutton = loadImage("data/Button/play.png");
 		playbuttonhvr = loadImage("data/Button/playhovr.png");
-		//player = loadImage("data/player.png");
-		
 		smeme = loadImage("data/splash/memebois.png");
 		smade = loadImage("data/splash/made with.png");
 		slogo = loadImage("data/splash/logo.png");
-		
-		loop();
+		sound.setupSoundEngine(this);
+	}
+
+	public void settings() {
+		// CustomBackground mit der Auflösung 800x600size
+		size(800, 600, P2D);
 	}
 
 	Player Player1 = new Player(this);
