@@ -70,7 +70,8 @@ public class Game extends PApplet {
 		noStroke();
 		//drogenmode = true; //Drogenmode disabelt den Background so das alles eine Linie hinter sich her zieht
 		if(!drogenmode){
-			background(bg);	
+			//background(bg);	
+			background(0);
 		}
 		tick.update();
 		textFont(lot);
@@ -239,6 +240,15 @@ public class Game extends PApplet {
 				ene.get(i).update();
 				if (ene.get(i).y >= 0) {
 					shh = true;
+					for (int j = 0; j < schussGegner.size(); j++) {
+						schussGegner.get(j).drawProjectileEnemy();
+						schussGegner.get(j).shootEnemy();
+						if (schussGegner.get(j).y >= 600 - 5) {
+							schussGegner.remove(j);
+							schussGegner.add(new ProjectileEnemy(this, ene, i));
+							shh = false;
+						}
+					}
 				}
 				if (ene.get(i).y >= 600 - 25) {
 					playerHitPoints = playerHitPoints - 5;
@@ -262,14 +272,7 @@ public class Game extends PApplet {
 
 			// GegnerProjectile zeichnen und Schießen
 			if (shh) {
-				for (int i = 0; i < schussGegner.size(); i++) {
-					schussGegner.get(i).drawProjectileEnemy();
-					schussGegner.get(i).shootEnemy();
-					if (schussGegner.get(i).y >= 600 - 5) {
-						schussGegner.remove(i);
-						shh = false;
-					}
-				}
+
 			}
 			// Wenn Spieler verliert
 			if (playerHitPoints <= 0) {
