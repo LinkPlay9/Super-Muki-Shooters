@@ -294,6 +294,7 @@ public class Game extends PApplet {
 	}
 
 	// Methode zum Schießen , KLAPPT !
+	//Quelle: https://www.openprocessing.org/sketch/118081
 	public void shootMethod() {
 		if (KeyHandler.keySpace) {
 			// this regulates the shooting speed
