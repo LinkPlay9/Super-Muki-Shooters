@@ -4,7 +4,7 @@ import processing.core.PImage;
 public class Enemy extends MainObject {
 	public float velocityX, velocityY;
 	// Random rand = new Random();
-	float minY = -90;
+	float minY = -300;
 	float maxY = -10;
 	float finalY = drawing.random(minY, maxY);
 	float minX = 10;

@@ -18,7 +18,7 @@ public class Game extends PApplet {
 	public int points = 0;
 	boolean canShoot = true;
 	boolean setup = true;
-	int canShootCounter;
+	float canShootCounter;
 	public int gamestate = 10; //spiel startet im intro
 	boolean drogenmode = false;
 	Clock tick = new Clock(); //Clock für FPS-Unabhängige Animation (vielen Dank Fabian Fritzsche)
@@ -307,9 +307,9 @@ public class Game extends PApplet {
 		// this checks if the right amount of time has passed before canShoot
 		// can = true again
 		if (canShoot == false) {
-			canShootCounter++;
+			canShootCounter = canShootCounter + Clock.elapsedTime;
 			// if the right amount of time has passed. make canShoot true
-			if (canShootCounter == 50)/*
+			if (canShootCounter >= 1)/*
 										 * change this number to change the
 										 * duration
 										 */ {
