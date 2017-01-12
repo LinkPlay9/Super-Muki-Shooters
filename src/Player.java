@@ -23,7 +23,7 @@ public class Player extends MainObject {
 			case 1:			player = drawing.loadImage("data/Player/fetafighter.png"); break;	// 1 für Pana
 			case 2:			player = drawing.loadImage("data/Player/maccaroni.png"); break;		// 2 für Mathaan
 			case 3:			player = drawing.loadImage("data/Player/blinkerboi.png"); break;	// 3 für Toni
-			case 4:			player = drawing.loadImage("data/Player/ufolo.png"); break;	// 4 für Zelle
+			case 4:			player = drawing.loadImage("data/Player/ufolo.png"); break;	// 4 für Zelle	https://image.freepik.com/free-icon/ufo_318-136949.jpg
 			default: 		player = drawing.loadImage("data/Player/default.png"); break;
 
 		}
