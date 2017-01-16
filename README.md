@@ -1,4 +1,4 @@
-![logo](https://i.imgur.com/PLdWMXF.png)
+![logo](https://i.imgur.com/ciMkPVZ.png)
 #Super Muki Shooter
 ##Ein Hochschul Projekt
 ##HSRW, Erstsemester, Einführung in die Medieninformatik
