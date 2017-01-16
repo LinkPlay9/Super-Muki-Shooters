@@ -1,5 +1,7 @@
-#Super Muki Shooter (arbeitstitel)
+![logo](https://i.imgur.com/PLdWMXF.png)
+#Super Muki Shooter
+##Ein Hochschul Projekt
+##HSRW, Erstsemester, Einführung in die Medieninformatik
 
-Wilkommen zum Super Muki Shooter github
-
-Hier wird ein super tolles spiel gebaut.
+Hier ensteht ein Hochschul Projekt: Ein Top Down Spaceshooter im Stil von Space Invader.
+Das Spiel wird mit Hilfe von Java, Processing und der Minim Library erstellt.
