@@ -204,10 +204,7 @@ public class Game extends PApplet {
 				for (int i = 0; i < 10; i++) {
 					ene.add(new Enemy(this));
 				}
-				// Projektile für die Gegner erstellen
-				for (int i = 0; i < ene.size() - 1; i++) {
-					schussGegner.add(new ProjectileEnemy(this, ene, i));
-				}
+				
 				// setup ausschalten
 				setup = false;
 			}
@@ -225,7 +222,13 @@ public class Game extends PApplet {
 			textSize(20);
 			fill(255);
 			text("Points: " + points, this.width-5, 40); //Punkte
-			text("HitPoints: " + (int) playerHitPoints, this.width-5, 20);	//HP
+			//text("HitPoints: " + (int) playerHitPoints, this.width-5, 20);	//HP
+			text("HP:", this.width-110, 20);
+			fill(255,0,0);
+			rect(this.width-105, 5, 100, 20,4);
+			fill(0,255,0);
+			rect(this.width-105, 5, playerHitPoints, 20,4);
+		
 
 			// Spieler erzeugen
 			Player1.drawPlayer(charactersel);
@@ -233,28 +236,52 @@ public class Game extends PApplet {
 			// Keyevents Spieler
 			Player1.movePlayer();
 
+			// Projektile für die Gegner erstellen und schießen
+			for (int i = 0; i < ene.size() - 1; i++) {
+				if(ene.get(i).y >= 0){
+					if(ene.get(i).canShoot == true){
+						schussGegner.add(new ProjectileEnemy(this, ene, i));
+						ene.get(i).canShoot = false;
+						ene.get(i).canShootCounter=0;
+					}
+					if(ene.get(i).canShoot == false){
+						ene.get(i).canShootCounter = ene.get(i).canShootCounter + Clock.elapsedTime;
+						if(ene.get(i).canShootCounter >= 1.5){ //schießgesch. des gegners
+							ene.get(i).canShoot = true;
+						}
+					}
+				}
+				
+			}
+			
 			// Gegner zeichnen, moven, wenn Gegner durchkommt wird gegner
 			// schneller
 			for (int i = 0; i < ene.size() - 1; i++) {
 				ene.get(i).drawEnemy();
 				ene.get(i).update();
 				if (ene.get(i).y >= 0) {
-					shh = true;
 					for (int j = 0; j < schussGegner.size(); j++) {
 						schussGegner.get(j).drawProjectileEnemy();
-						schussGegner.get(j).shootEnemy();
+//						schussGegner.get(j).shootEnemy();
 						if (schussGegner.get(j).y >= 600 - 5) {
 							schussGegner.remove(j);
-							schussGegner.add(new ProjectileEnemy(this, ene, i));
-							shh = false;
+//							schussGegner.add(new ProjectileEnemy(this, ene, i));
 						}
 					}
 				}
-				if (ene.get(i).y >= 600 - 25) {
+				if (ene.get(i).y >= 600) {
+//					System.out.println("-5 hp, gegner entwischt");
 					playerHitPoints = playerHitPoints - 5;
+//					ene.remove(i);
 					ene.get(i).enemyRandomSpawn();
+					ene.get(i).canShoot = true;
 				}
 			}
+			
+			for(int i = 0; i < schussGegner.size(); i++){
+				schussGegner.get(i).shootEnemy();
+			}
+			
 			// Bugfix mit dem Gegner
 			if (ene.size() == 1) {
 				ene.clear();
@@ -270,10 +297,6 @@ public class Game extends PApplet {
 				}
 			}
 
-			// GegnerProjectile zeichnen und Schießen
-			if (shh) {
-
-			}
 			// Wenn Spieler verliert
 			if (playerHitPoints <= 0) {
 				playerHitPoints = 0;
@@ -281,11 +304,18 @@ public class Game extends PApplet {
 				fill(255, 0, 0);
 				//text("U LOST!", width / 2, height / 2);
 				image(lost,0,0);
+				Player1.y = 600;
+				if (mousePressed) {
+					restart();
+				}
 			}
 			// Wenn Spieler gewinnt
 			else if (playerHitPoints > 0 && ene.isEmpty()) {
 				fill(255, 0, 0);
 				image(won, 0, 0);
+				if (mousePressed) {
+					restart();
+				}
 			}
 		}
 		// Methode zum Schießen , KLAPPT
@@ -296,13 +326,21 @@ public class Game extends PApplet {
 		ifPlayerHit();
 	}
 
+	public void restart(){
+		playerHitPoints = 100;
+		setup = true;
+		Player1.y = 600 -100;
+		Player1.x = 800 / 2;
+		points = 0;
+		gamestate = 0;
+	}
+	
 	// Methode zum Schießen , KLAPPT !
 	//Quelle: https://www.openprocessing.org/sketch/118081
 	public void shootMethod() {
 		if (KeyHandler.keySpace) {
 			// this regulates the shooting speed
 			if (canShoot == true) {
-				sound.playSound(sound.music[1]);
 				schussPlayer.add(new Projectile(this, Player1));
 				canShoot = false;
 				canShootCounter = 0;
@@ -313,7 +351,7 @@ public class Game extends PApplet {
 		if (canShoot == false) {
 			canShootCounter = canShootCounter + Clock.elapsedTime;
 			// if the right amount of time has passed. make canShoot true
-			if (canShootCounter >= 1)/*
+			if (canShootCounter >= 0.5)/*
 										 * change this number to change the
 										 * duration
 										 */ {
@@ -327,6 +365,7 @@ public class Game extends PApplet {
 			for (int j = 0; j < schussPlayer.size(); j++) {
 				if (PApplet.dist(schussPlayer.get(j).x + 10, schussPlayer.get(j).y + 10, ene.get(i).x + 25,
 						ene.get(i).y + 25) <= 20) {
+					sound.playSound(sound.music[1]);
 					points = points + 10;
 					ene.remove(i);
 					schussPlayer.remove(j);
@@ -339,6 +378,12 @@ public class Game extends PApplet {
 		for (int i = 0; i < schussGegner.size(); i++) {
 			if (PApplet.dist(schussGegner.get(i).x + 10, schussGegner.get(i).y + 10, Player1.x + 50,
 					Player1.y + 50) <= 40) {
+//				System.out.println("-10 hp, von gegner getroffen");
+				if(playerHitPoints <= 10){
+					sound.playSound(sound.music[1]);
+				}else{
+					sound.playSound(sound.music[0]);
+				}
 				playerHitPoints = playerHitPoints - 10;
 				schussGegner.remove(i);
 			}

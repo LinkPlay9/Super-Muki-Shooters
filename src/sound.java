@@ -36,9 +36,10 @@ public class sound {
 	}
 	
 	static void loadSamples(){
-		//music[0] = minim.loadFile("data/sound/music/Crescendolls.mp3", 4096);
-		//http://soundbible.com/1771-Laser-Cannon.html
-		music[1] = minim.loadFile("data/sound/Laser Blast.mp3");
+		//https://www.freesound.org/people/newagesoup/sounds/337837/
+		music[0] = minim.loadFile("data/sound/Hit.mp3");
+		//https://www.freesoundeffects.com/free-track/explosion-5-466450/
+		music[1] = minim.loadFile("data/sound/Explosion.mp3");
 
 	}
 	

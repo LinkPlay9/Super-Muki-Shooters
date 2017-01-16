@@ -19,7 +19,7 @@ public class ProjectileEnemy extends MainObject {
 	}
 
 	public void shootEnemy() {
-		this.y += 120 * Clock.elapsedTime;
+		this.y += 200 * Clock.elapsedTime;
 	}
 
 }

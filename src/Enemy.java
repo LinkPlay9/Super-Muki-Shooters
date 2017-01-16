@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -12,6 +14,10 @@ public class Enemy extends MainObject {
 	float finalX = drawing.random(minX, maxX);
 	public boolean sichtbar = false;
 	PImage enemy = drawing.loadImage("data/Player/enemy.png");
+	float canShootCounter = 0;
+	boolean canShoot = true;
+	ArrayList<ProjectileEnemy> schussGegner = new ArrayList<ProjectileEnemy>();
+
 	
 	public Enemy(PApplet d) {
 		super(d);
