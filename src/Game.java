@@ -32,6 +32,7 @@ public class Game extends PApplet {
 	long introtime = 0;
 	long timedif = 0;
 	long starttime = System.currentTimeMillis();
+	boolean disableShoot = false;
 	
 	public static void main(String[] args) {
 		PApplet.main("Game");
@@ -208,7 +209,7 @@ public class Game extends PApplet {
 				// setup ausschalten
 				setup = false;
 			}
-			surface.setTitle("Super Muki Shooter - Level 1");
+			surface.setTitle("Super Muki Shooter");
 			// FPS-ANzeige
 			fill(255,0,0);
 			textFont(roboto);
@@ -297,8 +298,13 @@ public class Game extends PApplet {
 				}
 			}
 
+			//ENDSTATES
+			
 			// Wenn Spieler verliert
 			if (playerHitPoints <= 0) {
+				schussPlayer.clear();
+				schussGegner.clear();
+				disableShoot = true;
 				playerHitPoints = 0;
 				ene.clear();
 				fill(255, 0, 0);
@@ -311,6 +317,9 @@ public class Game extends PApplet {
 			}
 			// Wenn Spieler gewinnt
 			else if (playerHitPoints > 0 && ene.isEmpty()) {
+				schussPlayer.clear();
+				schussGegner.clear();
+				disableShoot = true;
 				fill(255, 0, 0);
 				image(won, 0, 0);
 				if (mousePressed) {
@@ -327,11 +336,14 @@ public class Game extends PApplet {
 	}
 
 	public void restart(){
+		schussPlayer.clear();
+		schussGegner.clear();
 		playerHitPoints = 100;
 		setup = true;
 		Player1.y = 600 -100;
 		Player1.x = 800 / 2;
 		points = 0;
+		disableShoot = false;
 		gamestate = 0;
 	}
 	
@@ -339,11 +351,13 @@ public class Game extends PApplet {
 	//Quelle: https://www.openprocessing.org/sketch/118081
 	public void shootMethod() {
 		if (KeyHandler.keySpace) {
-			// this regulates the shooting speed
-			if (canShoot == true) {
-				schussPlayer.add(new Projectile(this, Player1));
-				canShoot = false;
-				canShootCounter = 0;
+			if(!disableShoot){
+				// this regulates the shooting speed
+				if (canShoot == true) {
+					schussPlayer.add(new Projectile(this, Player1));
+					canShoot = false;
+					canShootCounter = 0;
+				}
 			}
 		}
 		// this checks if the right amount of time has passed before canShoot
