@@ -71,8 +71,8 @@ public class Game extends PApplet {
 		noStroke();
 		//drogenmode = true; //Drogenmode disabelt den Background so das alles eine Linie hinter sich her zieht
 		if(!drogenmode){
-			//background(bg);	
-			background(0);
+			image(bg,0,0);	
+			//background(0);
 		}
 		tick.update();
 		textFont(lot);
@@ -246,7 +246,7 @@ public class Game extends PApplet {
 						ene.get(i).canShootCounter=0;
 					}
 					if(ene.get(i).canShoot == false){
-						ene.get(i).canShootCounter = ene.get(i).canShootCounter + Clock.elapsedTime;
+						ene.get(i).canShootCounter = ene.get(i).canShootCounter + Clock.elapsedTime * random(0,1);
 						if(ene.get(i).canShootCounter >= 1.5){ //schießgesch. des gegners
 							ene.get(i).canShoot = true;
 						}

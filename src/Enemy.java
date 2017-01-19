@@ -40,7 +40,7 @@ public class Enemy extends MainObject {
 	}
 
 	public void enemyRandomSpawn() {
-		velocityY += 50;
+		velocityY += 20;
 		this.y = drawing.random(minY, maxY);
 		this.x = drawing.random(minX, maxX);
 	}
