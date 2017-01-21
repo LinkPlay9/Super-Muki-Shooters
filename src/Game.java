@@ -8,7 +8,7 @@ public class Game extends PApplet {
 	PImage bg; //Hintergrundbild (Sterne)
 	PImage lost, won; //lose & win Bilder
 	PImage startscreen, playerselect; //Menüs
-	PImage toniBio,noBio; //Steckbrife
+	PImage toniBio,panaBio, mathaanBio, noBio; //Steckbrife
 	PImage playbutton, playbuttonhvr; //Buttons
 	PImage player, enmey; //Spieler
 	PImage smeme, smade, slogo; //bilder für intro
@@ -62,6 +62,8 @@ public class Game extends PApplet {
 		slogo = loadImage("data/splash/logo.png");
 		toniBio = loadImage("data/Player/toniBio.png");
 		noBio = loadImage("data/Player/noBio.png");
+		panaBio = loadImage("data/Player/panaBio.png");
+		mathaanBio = loadImage("data/Player/mathaanBio.png");
 		sound.setupSoundEngine(this);
 	}
 
@@ -121,7 +123,6 @@ public class Game extends PApplet {
 			}
 			
 			if(timedif >= 0 && timedif <= 3000){
-				//System.out.println(timedif);
 				image(smeme, 0, 0);
 			}else if(timedif >= 3000 && timedif <= 6000){
 				image(smade, 0, 0);
@@ -172,7 +173,7 @@ public class Game extends PApplet {
 			if(nexttime >= curtime+300){
 				//Peter Button
 				if (mouseX >= 30 && mouseX <= 30+bsize && mouseY >= playerh && mouseY <= playerh+bsize){
-					image(noBio,0,0);
+					image(panaBio,0,0);
 					if (mousePressed){
 						charactersel = 1; //Setze Peter als Spieler
 						gamestate = 1; //Wähle Level 1
@@ -181,7 +182,7 @@ public class Game extends PApplet {
 				
 				//Mathaan Button
 				if (mouseX >= 230 && mouseX <= 230+bsize && mouseY >= playerh && mouseY <= playerh+bsize){
-					image(noBio,0,0);
+					image(mathaanBio,0,0);
 					if (mousePressed){
 						charactersel = 2; //Setze Mathaan als Spieler
 						gamestate = 1; //Wähle Level 1
