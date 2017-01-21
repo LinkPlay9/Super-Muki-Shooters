@@ -68,6 +68,7 @@ public class Game extends PApplet {
 	public void settings() {
 		// CustomBackground mit der Auflösung 800x600size
 		size(800, 600, P2D);
+		noSmooth();
 	}
 
 	Player Player1 = new Player(this);
@@ -223,7 +224,7 @@ public class Game extends PApplet {
 			textFont(roboto);
 			textSize(20);
 			textAlign(LEFT);
-			text("FPS: " + (int) frameRate, 5, 20);
+			//text("FPS: " + (int) frameRate, 5, 20);
 			
 			//Statusanzeige
 			textAlign(RIGHT);
@@ -331,8 +332,11 @@ public class Game extends PApplet {
 				schussPlayer.clear();
 				schussGegner.clear();
 				disableShoot = true;
-				fill(255, 0, 0);
+				fill(255);
 				image(won, 0, 0);
+				textAlign(CENTER);
+				textSize(64);
+				text("Points: " + points, this.width / 2, 120); //Punkte
 				if (mousePressed) {
 					eneCount = eneCount +5; //mehr gegner im nächsten level.
 					level++;
