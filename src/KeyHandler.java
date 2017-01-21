@@ -1,7 +1,7 @@
 import processing.core.*;
 
 public class KeyHandler extends PApplet{
-	
+	//Thanks to Fabian
 	static boolean 
 		keyW,
 		keyA,

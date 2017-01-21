@@ -1,6 +1,6 @@
 import ddf.minim.*;
 import processing.core.PApplet;
-
+//Thanks to Fabian
 public class sound {
 	
 	static PApplet applet;

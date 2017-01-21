@@ -15,7 +15,6 @@ public class Player extends MainObject {
 		this.b = 50.0f;
 		posY = this.y;
 		posX = this.x;
-		//this.player = player;
 	}
 
 	public void drawPlayer(int charactersel) {
@@ -23,14 +22,10 @@ public class Player extends MainObject {
 			case 1:			player = drawing.loadImage("data/Player/fetafighter.png"); break;	// 1 für Pana
 			case 2:			player = drawing.loadImage("data/Player/maccaroni.png"); break;		// 2 für Mathaan
 			case 3:			player = drawing.loadImage("data/Player/blinkerboi.png"); break;	// 3 für Toni
-			case 4:			player = drawing.loadImage("data/Player/ufolo.png"); break;	// 4 für Zelle	https://image.freepik.com/free-icon/ufo_318-136949.jpg
+			case 4:			player = drawing.loadImage("data/Player/ufolo.png"); break;			// 4 für Zelle
 			default: 		player = drawing.loadImage("data/Player/default.png"); break;
 
 		}
-		//player.resize(50, 0);
-		//drawing.noStroke();
-		// drawing.fill(0, 255, 12);
-		// drawing.rect(x, y, a, b);
 		drawing.image(player, x, y);
 	}
 
