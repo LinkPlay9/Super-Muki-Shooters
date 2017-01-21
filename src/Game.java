@@ -8,6 +8,7 @@ public class Game extends PApplet {
 	PImage bg; //Hintergrundbild (Sterne)
 	PImage lost, won; //lose & win Bilder
 	PImage startscreen, playerselect; //Menüs
+	PImage toniBio,noBio; //Steckbrife
 	PImage playbutton, playbuttonhvr; //Buttons
 	PImage player, enmey; //Spieler
 	PImage smeme, smade, slogo; //bilder für intro
@@ -17,7 +18,7 @@ public class Game extends PApplet {
 	private static int playerHitPoints = 100; //Leben
 	public int points = 0;
 	boolean canShoot = true;
-	boolean setup = true;
+	boolean gegnerSetup = true;
 	float canShootCounter;
 	public int gamestate = 10; //spiel startet im intro
 	boolean drogenmode = false;
@@ -33,6 +34,8 @@ public class Game extends PApplet {
 	long timedif = 0;
 	long starttime = System.currentTimeMillis();
 	boolean disableShoot = false;
+	int eneCount = 5; //Anzahl der Gegner
+	int level = 1;
 	
 	public static void main(String[] args) {
 		PApplet.main("Game");
@@ -57,6 +60,8 @@ public class Game extends PApplet {
 		smeme = loadImage("data/splash/memebois.png");
 		smade = loadImage("data/splash/made with.png");
 		slogo = loadImage("data/splash/logo.png");
+		toniBio = loadImage("data/Player/toniBio.png");
+		noBio = loadImage("data/Player/noBio.png");
 		sound.setupSoundEngine(this);
 	}
 
@@ -166,6 +171,7 @@ public class Game extends PApplet {
 			if(nexttime >= curtime+300){
 				//Peter Button
 				if (mouseX >= 30 && mouseX <= 30+bsize && mouseY >= playerh && mouseY <= playerh+bsize){
+					image(noBio,0,0);
 					if (mousePressed){
 						charactersel = 1; //Setze Peter als Spieler
 						gamestate = 1; //Wähle Level 1
@@ -174,6 +180,7 @@ public class Game extends PApplet {
 				
 				//Mathaan Button
 				if (mouseX >= 230 && mouseX <= 230+bsize && mouseY >= playerh && mouseY <= playerh+bsize){
+					image(noBio,0,0);
 					if (mousePressed){
 						charactersel = 2; //Setze Mathaan als Spieler
 						gamestate = 1; //Wähle Level 1
@@ -182,6 +189,7 @@ public class Game extends PApplet {
 				
 				//Toni Button
 				if (mouseX >= 430 && mouseX <= 430+bsize && mouseY >= playerh && mouseY <= playerh+bsize){
+					image(toniBio,0,0);
 					if (mousePressed){
 						charactersel = 3; //Setze Toni als Spieler
 						gamestate = 1; //Wähle Level 1
@@ -190,6 +198,7 @@ public class Game extends PApplet {
 				
 				//Zelle Button
 				if (mouseX >= 630 && mouseX <= 630+bsize && mouseY >= playerh && mouseY <= playerh+bsize){
+					image(noBio,0,0);
 					if (mousePressed){
 						charactersel = 4; //Setze Zelle als Spieler
 						gamestate = 1; //Wähle Level 1
@@ -200,16 +209,15 @@ public class Game extends PApplet {
 
 		// Level 1
 		if (gamestate == 1) {		
-			if (setup) {
+			if (gegnerSetup) {
 				// Gegner erstellen
-				for (int i = 0; i < 10; i++) {
+				for (int i = 0; i <= eneCount; i++) {
 					ene.add(new Enemy(this));
 				}
-				
 				// setup ausschalten
-				setup = false;
+				gegnerSetup = false;
 			}
-			surface.setTitle("Super Muki Shooter");
+			surface.setTitle("Super Muki Shooter - Level: "+level);
 			// FPS-ANzeige
 			fill(255,0,0);
 			textFont(roboto);
@@ -306,6 +314,9 @@ public class Game extends PApplet {
 				schussGegner.clear();
 				disableShoot = true;
 				playerHitPoints = 0;
+				points = 0;
+				level = 1;
+				eneCount = 5;
 				ene.clear();
 				fill(255, 0, 0);
 				//text("U LOST!", width / 2, height / 2);
@@ -323,6 +334,8 @@ public class Game extends PApplet {
 				fill(255, 0, 0);
 				image(won, 0, 0);
 				if (mousePressed) {
+					eneCount = eneCount +5; //mehr gegner im nächsten level.
+					level++;
 					restart();
 				}
 			}
@@ -339,10 +352,9 @@ public class Game extends PApplet {
 		schussPlayer.clear();
 		schussGegner.clear();
 		playerHitPoints = 100;
-		setup = true;
+		gegnerSetup = true;
 		Player1.y = 600 -100;
 		Player1.x = 800 / 2;
-		points = 0;
 		disableShoot = false;
 		gamestate = 0;
 	}
