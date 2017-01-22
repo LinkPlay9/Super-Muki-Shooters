@@ -4,38 +4,39 @@ import processing.core.PFont;
 import processing.core.PImage;
 
 public class Game extends PApplet {
-	// Bilder,Spieler,Gegner,Projektile Deklarieren
+	//Bilder,Spieler,Gegner,Projektile Deklarieren
 	PImage bg; //Hintergrundbild (Sterne)
 	PImage lost, won; //lose & win Bilder
 	PImage startscreen, playerselect; //Menüs
 	PImage toniBio,panaBio, mathaanBio, zelleBio; //Steckbrife
 	PImage playbutton, playbuttonhvr; //Buttons
-	PImage player, enmey; //Spieler
-	PImage smeme, smade, slogo; //bilder für intro
-	ArrayList<Enemy> ene = new ArrayList<Enemy>();
-	ArrayList<Projectile> schussPlayer = new ArrayList<Projectile>();
-	ArrayList<ProjectileEnemy> schussGegner = new ArrayList<ProjectileEnemy>();
-	private static int playerHitPoints = 100; //Leben
-	public int points = 0;
+	PImage player, enmey; //Spieler Objekt, Gegner Objekt
+	PImage smeme, smade, slogo; //Bilder für das Intro
+	ArrayList<Enemy> ene = new ArrayList<Enemy>();//Enemy Array, steuert Enemys
+	ArrayList<Projectile> schussPlayer = new ArrayList<Projectile>();//Projektil Array, steuert Projektile des Spielers
+	ArrayList<ProjectileEnemy> schussGegner = new ArrayList<ProjectileEnemy>();//Gegner Projektil Array, steuert Projektile der Gegner
+	private static int playerHitPoints = 100; //Leben des Spielers
+	public int points = 0;//Punkte des Spielers, löschen sich wenn er verliert
 	boolean canShoot = true;
-	boolean gegnerSetup = true;
-	float canShootCounter;
+	float canShootCounter;//Zähler für Schussrate des Spielers
+	boolean enemySetup = true;//Gegner werden nur einmal im Draw erstellt
 	public int gamestate = 10; //spiel startet im intro
-	boolean drogenmode = false;
-	Clock tick = new Clock(); //Clock für FPS-Unabhängige Animation (vielen Dank Fabian Fritzsche)
-	int startX, startY, startSize;
-	boolean shh = false;
-	PFont lot,roboto;
-	Background[] p = new Background[250];
+	Clock tick = new Clock(); //Clock für FPS-Unabhängige Animation (vielen Dank an Fabian)
+	PFont lot,roboto;//Schriftarten fürs Spiel
+	//Quelle der Fonts:
+	//LOT free Font: http://www.fontfabric.com/lot-free-font/
+	//Roboto Font: https://fonts.google.com/specimen/Roboto
+	Background[] p = new Background[250];//Hintergrund Partikel
 	public int charactersel;//Spieler Character, bestimmt welches Bild für den Spieler geladen wird
+	//Zeit Variablen für Menüs
 	long curtime = 0;
 	long nexttime = 0;
 	long introtime = 0;
 	long timedif = 0;
 	long starttime = System.currentTimeMillis();
-	boolean disableShoot = false;
-	int eneCount = 5; //Anzahl der Gegner
-	int level = 1;
+	boolean disableShoot = false;//Schaltet schießen aus wenn man verliert / gewinnt
+	int eneCount = 5; // Anzahl der Gegner
+	int level = 1;	// Level Nummer
 	
 	public static void main(String[] args) {
 		PApplet.main("Game");
@@ -44,11 +45,13 @@ public class Game extends PApplet {
 	public void setup() {
 		frameRate(60);
 		surface.setResizable(false); 
-		tick.update();
+		tick.update();	//vielen Dank an Fabian
+		sound.setupSoundEngine(this); //vielen Dank an Fabian
 		//Background erzeugen
 		for (int i = 0; i < p.length; i++) {
 			p[i] = new Background(this);
 		}
+		//Bilder Laden
 		lot = createFont("data/LOT.otf",32);
 		roboto = createFont("data/Roboto-Regular.ttf",32);
 		bg = loadImage("data/Backgrounds/Level1.jpg");	
@@ -65,27 +68,20 @@ public class Game extends PApplet {
 		zelleBio = loadImage("data/Player/zelleBio.png");
 		panaBio = loadImage("data/Player/panaBio.png");
 		mathaanBio = loadImage("data/Player/mathaanBio.png");
-		sound.setupSoundEngine(this);
 	}
 
 	public void settings() {
-		// CustomBackground mit der Auflösung 800x600size
 		size(800, 600, P2D);
-		noSmooth();
 	}
 
 	Player Player1 = new Player(this);
 	boolean isetup = true;
 	public void draw() {
 		noStroke();
-		//drogenmode = true; //Drogenmode disabelt den Background so das alles eine Linie hinter sich her zieht
-		if(!drogenmode){
-			image(bg,0,0);	
-			//background(0);
-		}
-		tick.update();
+		background(0);
+		image(bg,0,0);
+		tick.update();	//vielen Dank an Fabian
 		textFont(lot);
-		
 		// Background Animation Methode
 		for (int i = 0; i < p.length; i++) {
 			p[i].fall();
@@ -97,13 +93,13 @@ public class Game extends PApplet {
 		 *	
 		 *	10 = Intro
 		 *
-		 *	0 = Startscreen: Titel, Play Button, Credits
+		 *	0 = Startscreen: Titel, Play Button
 		 *
 		 *	Menüs beginnen mit 1*
 		 *	11 = Character Menü
 		 *
-		 *	Levels sind Eintellig und beginnen mit 1
-		 *	1 = Level 1 
+		 *	Level
+		 *	1 = Game (beinhaltet Endstate)
 		 */
 		
 		if(isetup){
@@ -212,20 +208,20 @@ public class Game extends PApplet {
 
 		// Level 1
 		if (gamestate == 1) {		
-			if (gegnerSetup) {
+			if (enemySetup) {
 				// Gegner erstellen
 				for (int i = 0; i <= eneCount; i++) {
 					ene.add(new Enemy(this));
 				}
 				// setup ausschalten
-				gegnerSetup = false;
+				enemySetup = false;
 			}
 			surface.setTitle("Super Muki Shooter - Level: "+level);
-			// FPS-ANzeige
 			fill(255,0,0);
 			textFont(roboto);
 			textSize(20);
 			textAlign(LEFT);
+			// FPS-ANzeige
 			//text("FPS: " + (int) frameRate, 5, 20);
 			
 			//Statusanzeige
@@ -358,7 +354,7 @@ public class Game extends PApplet {
 		schussPlayer.clear();
 		schussGegner.clear();
 		playerHitPoints = 100;
-		gegnerSetup = true;
+		enemySetup = true;
 		Player1.y = 600 -100;
 		Player1.x = 800 / 2;
 		disableShoot = false;
@@ -410,7 +406,6 @@ public class Game extends PApplet {
 		for (int i = 0; i < schussGegner.size(); i++) {
 			if (PApplet.dist(schussGegner.get(i).x + 10, schussGegner.get(i).y + 10, Player1.x + 50,
 					Player1.y + 50) <= 40) {
-//				System.out.println("-10 hp, von gegner getroffen");
 				if(playerHitPoints <= 10){
 					sound.playSound(sound.music[1]);
 				}else{
@@ -423,10 +418,10 @@ public class Game extends PApplet {
 	}
 
 	public void keyPressed() {
-		KeyHandler.setMove(keyCode, true);
+		KeyHandler.setMove(keyCode, true);//vielen Dank an Fabian
 	}
 
 	public void keyReleased() {
-		KeyHandler.setMove(keyCode, false);
+		KeyHandler.setMove(keyCode, false);//vielen Dank an Fabian
 	}
 }
