@@ -8,7 +8,7 @@ public class Game extends PApplet {
 	PImage bg; //Hintergrundbild (Sterne)
 	PImage lost, won; //lose & win Bilder
 	PImage startscreen, playerselect; //Menüs
-	PImage toniBio,panaBio, mathaanBio, noBio; //Steckbrife
+	PImage toniBio,panaBio, mathaanBio, zelleBio; //Steckbrife
 	PImage playbutton, playbuttonhvr; //Buttons
 	PImage player, enmey; //Spieler
 	PImage smeme, smade, slogo; //bilder für intro
@@ -42,7 +42,8 @@ public class Game extends PApplet {
 	}
 
 	public void setup() {
-		frameRate(1000);
+		frameRate(60);
+		surface.setResizable(false); 
 		tick.update();
 		//Background erzeugen
 		for (int i = 0; i < p.length; i++) {
@@ -61,7 +62,7 @@ public class Game extends PApplet {
 		smade = loadImage("data/splash/made with.png");
 		slogo = loadImage("data/splash/logo.png");
 		toniBio = loadImage("data/Player/toniBio.png");
-		noBio = loadImage("data/Player/noBio.png");
+		zelleBio = loadImage("data/Player/zelleBio.png");
 		panaBio = loadImage("data/Player/panaBio.png");
 		mathaanBio = loadImage("data/Player/mathaanBio.png");
 		sound.setupSoundEngine(this);
@@ -200,7 +201,7 @@ public class Game extends PApplet {
 				
 				//Zelle Button
 				if (mouseX >= 630 && mouseX <= 630+bsize && mouseY >= playerh && mouseY <= playerh+bsize){
-					image(noBio,0,0);
+					image(zelleBio,0,0);
 					if (mousePressed){
 						charactersel = 4; //Setze Zelle als Spieler
 						gamestate = 1; //Wähle Level 1
