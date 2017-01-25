@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
-
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
@@ -39,8 +37,6 @@ public class Game extends PApplet {
 	boolean disableShoot = false;//Schaltet schießen aus wenn man verliert / gewinnt
 	int eneCount = 5; // Anzahl der Gegner
 	int level = 1;	// Level Nummer
-	ArrayList<Integer> highscores = new ArrayList<Integer>();
-	
 	
 	public static void main(String[] args) {
 		PApplet.main("Game");
@@ -171,15 +167,6 @@ public class Game extends PApplet {
 			int playerh = 230;
 			int bsize = 140;
 			nexttime = System.currentTimeMillis();
-			
-			//Highscore
-			highscores.add(points);
-			textAlign(CENTER);
-			textFont(lot);
-			textSize(40);
-			fill(255);
-			text("Highscore: " + Collections.max(highscores), this.width/2, this.height-100);
-			
 			if(nexttime >= curtime+300){
 				//Peter Button
 				if (mouseX >= 30 && mouseX <= 30+bsize && mouseY >= playerh && mouseY <= playerh+bsize){
@@ -319,9 +306,6 @@ public class Game extends PApplet {
 			}
 
 			//ENDSTATES
-			
-			//Highscore			
-			highscores.add(points);					
 			
 			// Wenn Spieler verliert
 			if (playerHitPoints <= 0) {
