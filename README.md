@@ -14,4 +14,4 @@ Known Bugs:
 
 [Download]
 
-Hier ist eine [Spielbar .jar Datei](https://drive.google.com/file/d/0BzaF9Jwf_FFpa1RPSHROdFJ0dk0/view?usp=sharing) (stand 25.01.2017)
+Hier ist eine [spielbare .jar Datei](https://drive.google.com/file/d/0BzaF9Jwf_FFpa1RPSHROdFJ0dk0/view?usp=sharing) (stand 25.01.2017)
